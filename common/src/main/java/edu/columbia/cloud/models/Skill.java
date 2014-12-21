@@ -1,9 +1,19 @@
 package edu.columbia.cloud.models;
 
 public class Skill {
+
     private String id;
     private String name;
     private String category;
+    private Double competency;
+
+    public Double getCompetency() {
+		return competency;
+	}
+
+	public void setCompetency(Double competency) {
+		this.competency = competency;
+	}
 
     public String getId() {
         return id;
