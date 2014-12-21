@@ -1,16 +1,18 @@
 package edu.columbia.cloud.models;
 
-import java.util.List;
+import java.util.Date;
+import java.util.Map;
 
 public class User {
 
     private String id;
     private String name;
     private String gender;
-    private int age;
-    private List<Skill> skillList;
+    private Date dob;
+    private String email;
+    private Map<Skill, Long> skillMap;
 
-    User(String id, String name){
+    public User(String id, String name){
         this.id = id;
         this.name = name;
     }
@@ -39,23 +41,31 @@ public class User {
         this.gender = gender;
     }
 
-    public int getAge() {
-        return age;
+    public Map<Skill, Long> getSkillMap() {
+        return skillMap;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setSkillMap(Map<Skill, Long> skillMap) {
+        this.skillMap = skillMap;
     }
 
-    public List<Skill> getSkillList() {
-        return skillList;
+    public void addSkillToMap(Skill skill, Long skillVal){
+        this.skillMap.put(skill, skillVal);
     }
 
-    public void setSkillList(List<Skill> skillList) {
-        this.skillList = skillList;
+    public Date getDob() {
+        return dob;
     }
 
-    public void addSkill(Skill skill){
-        this.skillList.add(skill);
+    public void setDob(Date dob) {
+        this.dob = dob;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

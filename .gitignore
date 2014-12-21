@@ -16,9 +16,6 @@ log/
 target/
 
 # Title Detection
-title_detection/art/data
-title_detection/art/result
-title_detection/art/art2
-title_detection/art/email.config
+*.properties
 
 /bin/

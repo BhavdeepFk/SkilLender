@@ -1,9 +1,9 @@
 package edu.columbia.cloud.models;
 
 public class Skill {
-    String id;
-    String name;
-    String category;
+    private String id;
+    private String name;
+    private String category;
 
     public String getId() {
         return id;
