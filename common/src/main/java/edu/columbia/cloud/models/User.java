@@ -1,7 +1,6 @@
 package edu.columbia.cloud.models;
 
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 public class User {
 
@@ -11,10 +10,13 @@ public class User {
     private Date dob;
     private String email;
     private Map<Skill, Long> skillMap;
+    private List<User> connections;
 
     public User(String id, String name){
         this.id = id;
         this.name = name;
+        this.connections = new ArrayList<User>();
+        this.skillMap = new HashMap<Skill, Long>();
     }
 
     public String getId() {
@@ -67,5 +69,17 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<User> getConnections() {
+        return connections;
+    }
+
+    public void setConnections(List<User> connections) {
+        this.connections = connections;
+    }
+
+    public void addConnection(User user){
+        this.connections.add(user);
     }
 }

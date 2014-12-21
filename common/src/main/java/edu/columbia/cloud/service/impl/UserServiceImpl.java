@@ -39,4 +39,9 @@ public class UserServiceImpl implements UserService {
     public boolean updateUserSkill(String userId, Skill skill) {
         return false;
     }
+
+    @Override
+    public boolean makeConnection(String userId, String anotherUserId) {
+        return false;
+    }
 }
