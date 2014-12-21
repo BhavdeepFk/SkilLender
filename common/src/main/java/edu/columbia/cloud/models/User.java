@@ -1,6 +1,12 @@
 package edu.columbia.cloud.models;
 
+<<<<<<< Updated upstream
 import java.util.*;
+=======
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+>>>>>>> Stashed changes
 
 public class User {
 
@@ -10,9 +16,21 @@ public class User {
     private Date dob;
     private String email;
     private Map<Skill, Long> skillMap;
+<<<<<<< Updated upstream
     private List<User> connections;
+=======
+    private List<User> friends;
+    
+    public List<User> getFriends() {
+		return friends;
+	}
+>>>>>>> Stashed changes
 
-    public User(String id, String name){
+	public void setFriends(List<User> friends) {
+		this.friends = friends;
+	}
+
+	public User(String id, String name){
         this.id = id;
         this.name = name;
         this.connections = new ArrayList<User>();
@@ -70,6 +88,7 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+<<<<<<< Updated upstream
 
     public List<User> getConnections() {
         return connections;
@@ -82,4 +101,7 @@ public class User {
     public void addConnection(User user){
         this.connections.add(user);
     }
+=======
+    
+>>>>>>> Stashed changes
 }

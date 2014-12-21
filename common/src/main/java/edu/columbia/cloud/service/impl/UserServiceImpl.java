@@ -6,8 +6,6 @@ import edu.columbia.cloud.models.Skill;
 import edu.columbia.cloud.models.User;
 import edu.columbia.cloud.service.UserService;
 
-import java.util.List;
-
 public class UserServiceImpl implements UserService {
 
     public UserServiceImpl(){
@@ -17,27 +15,27 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
     @Override
     public boolean createUser(User user) {
-        return false;
+        return userDao.createUser(user);
     }
 
     @Override
     public User fetchUser(String userId) {
-        return null;
+        return userDao.fetchUser(userId);
     }
 
     @Override
     public boolean addUserSkill(String userId, Skill skill) {
-        return false;
+        return userDao.addSkill(userId, skill);
     }
 
     @Override
     public boolean removeUserSkill(String userId, Skill skill) {
-        return false;
+        return userDao.removeSkill(userId, skill);
     }
 
     @Override
     public boolean updateUserSkill(String userId, Skill skill) {
-        return false;
+        return userDao.updateSkill(userId, skill);
     }
 
     @Override
