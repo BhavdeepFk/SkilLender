@@ -10,11 +10,11 @@ public interface UserService {
 
     public User fetchUser(String userId);
 
-    public boolean addUserSkill(String userId, Skill skill);
+    public boolean addUserSkill(String userId, Skill skill, long strength);
 
-    public boolean removeUserSkill(String userId, Skill skill);
+    public boolean removeUserSkill(String userId, String skillId);
 
-    public boolean updateUserSkill(String userId, Skill skill);
+    public boolean updateUserSkill(String userId, String skillid, long strength);
 
     public boolean makeConnection(String userId, String anotherUserId);
 
