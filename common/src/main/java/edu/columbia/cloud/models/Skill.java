@@ -4,6 +4,16 @@ public class Skill {
     String id;
     String name;
     String category;
+    
+    public Double getCompetency() {
+		return competency;
+	}
+
+	public void setCompetency(Double competency) {
+		this.competency = competency;
+	}
+
+	Double competency;
 
     public String getId() {
         return id;
