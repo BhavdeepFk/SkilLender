@@ -1,0 +1,126 @@
+<center>
+    <div class="homeContent">
+        <div class="welcomeText">
+            Hello, Username
+        </div>
+        <div class="userProfileImage pull-left">
+            <img src="/static/images/user.jpg" alt="sample user name">
+        </div>
+        <div class="notifications pull-right">
+            <div class="heading">
+                Contact Details:
+                <span class=' badge numNotifs pull-right'>7 new</span>
+            </div>
+            <div class="notificationsContent">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <div class="from pull-left new">Name: Mike Hannigan</div>
+                       
+                    </li>
+                    <li class="list-group-item">
+                        <div class="from pull-left new">Age: Forever young</div>
+                        
+                    </li>
+                    <li class="list-group-item">
+                        <div class="from pull-left new">Gender: Male</div>
+                       
+                    </li>
+                    <li class="list-group-item">
+                        <div class="from pull-left">Work: Columbia University</div>
+                        
+                    </li>
+					<li class="list-group-item">
+                        <div class="from pull-left">Location: New York</div>
+                        
+                    </li>
+					<li class="list-group-item">
+                        <div class="from pull-left">Contact:987654321</div>
+                        
+                    </li>
+					<li class="list-group-item">
+                        <div class="from pull-left">Email: abc@columbia.edu</div>
+                        
+                    </li>
+                </ul>
+            </div> 
+        </div>
+        <div class="skills pull-left">
+            <div class="heading">Skills</div>
+            <div class='skillsContent'>
+                <ul class='list-group'>
+                    <li class='list-group-item'>
+                        <div class='skill pull-left'>Play guitar</div>
+                        <div class='proficiency pull-right'>
+                            <div class="progress pull-left">
+                                <div class="progress-bar progress-bar-success" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" role="progressbar" style="width: 30%">
+                                3</div>
+                            </div>
+                           <!-- <div class='changeButtons pull-right'>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-default changeButton minus"> - </button>
+                                    <button type="button" class="btn btn-default changeButton plus"> + </button>
+                                </div>
+                            </div> -->
+                        </div>
+                    </li>
+                    <li class='list-group-item'>
+                        <div class='skill pull-left'>English language</div>
+                        <div class='proficiency pull-right'>
+                            <div class="progress pull-left">
+                                <div class="progress-bar progress-bar-success" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" role="progressbar" style="width: 70%">
+                                7</div>
+                            </div>
+                    <!--        <div class='changeButtons pull-right'>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-default changeButton minus"> - </button>
+                                    <button type="button" class="btn btn-default changeButton plus"> + </button>
+                                </div>
+                            </div> -->
+                        </div>
+                    </li>
+                    <li class='list-group-item'>
+                        <div class='skill pull-left'>Cooking skills</div>
+                        <div class='proficiency pull-right'>
+                            <div class="progress pull-left">
+                                <div class="progress-bar progress-bar-success" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" role="progressbar" style="width: 60%">
+                                6</div>
+                            </div>
+                            <div class='changeButtons pull-right'>
+                            <!--    <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-default changeButton minus"> - </button>
+                                    <button type="button" class="btn btn-default changeButton plus"> + </button>
+                                </div> -->
+                            </div>
+                        </div>
+                    </li>
+                    <!--<li class='list-group-item addMoreButton centerText'>
+                        + Add More
+                    </li>-->
+                </ul>
+            </div>
+        </div>
+    </div>
+</center>
+<!--
+<script>
+    $('.changeButton').click(function(){
+        var $parent=$(this).closest('.proficiency');
+        var current=parseInt($('.progress-bar',$parent).attr('aria-valuenow'));
+        if($(this).hasClass('plus')){
+            if(current<100){
+                current=current+10;
+            }
+        } else {
+            if(current>0){
+                current=current-10;
+            }
+        }
+        console.log(current)
+        $('.progress-bar',$parent).attr('aria-valuenow',current);
+	
+        $('.progress-bar',$parent).css('width',current+'%');
+        $('.progress-bar',$parent).html(current+'%');
+    });
+    
+    
+</script> -->

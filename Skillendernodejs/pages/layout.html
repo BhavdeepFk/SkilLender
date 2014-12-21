@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <title>Skillender</title>
+        <link rel="stylesheet" href="/static/style.css" type="text/css">
+        <!--JQUERY-->   <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+        <!--ADDING BOOTSTRAP-->
+            <!-- Latest compiled and minified CSS -->
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+            <!-- Optional theme -->
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+            <!-- Latest compiled and minified JavaScript -->
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        <!--end bootstrap-->
+    </head>
+
+    <body>
+        {{#unless hideNav}}
+		<div class="topNav pull-left">
+		
+
+            <div class="logo pull-left">
+                <img src="/static/images/icon.png" alt="skillender">
+            </div>
+            <div class="searchBar pull-left">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for skills, people, etc.">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+                </div>
+            </div>
+            <div class="userProfileInfo pull-right">
+                <img src='/static/images/user.jpg' alt='UserName'>
+            </div>
+		</div>
+		{{/unless}}
+
+        <div class='userMenu notVisible'>
+            <div><span class="glyphicon glyphicon-user"></span><a tabindex="-1" href="#">Profile</a></div>
+            <div><span class="glyphicon glyphicon-cog"></span><a tabindex="-1" href="#">Settings</a></div>
+            <div><span class="glyphicon glyphicon-off"></span><a tabindex="-1" href="#">Logout</a></div>
+        </div>
+
+        <div class="mainContent" id="mainContent">
+            <div class="opaquebg"></div>
+            {{{content}}}
+        </div>
+
+        <script>
+            $('.userProfileInfo').mouseenter(function(){
+                $('.userMenu').removeClass('notVisible');
+            });
+            $('.userMenu').mouseleave(function(){
+                $(this).addClass('notVisible');
+            });
+
+        </script>
+        
+    </body>
+
+</html>
+

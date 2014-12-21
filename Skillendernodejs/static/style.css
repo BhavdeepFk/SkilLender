@@ -1,0 +1,348 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,100italic,300italic,400italic,700italic);
+
+.pull-left{
+    float:left;
+}
+.pull-right{
+    float:right;
+}
+
+.centerText{
+    text-align: center;
+}
+
+.notVisible{
+    display:none;
+}
+
+body{
+    margin:0px;
+    padding:0px; 
+    background-image: url('/static/images/bgtilesmall.jpg');
+    background-repeat: repeat;
+}
+
+*{
+    font-family: 'Roboto','sans-serif';
+}
+.topNav{
+    background: #870204; /* Old browsers */
+    background: -moz-linear-gradient(top,  #870204 0%, #60011b 44%, #560018 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#870204), color-stop(44%,#60011b), color-stop(100%,#560018)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #870204 0%,#60011b 44%,#560018 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #870204 0%,#60011b 44%,#560018 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #870204 0%,#60011b 44%,#560018 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #870204 0%,#60011b 44%,#560018 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#870204', endColorstr='#560018',GradientType=0 ); /* IE6-9 */
+
+    
+    
+    box-shadow: 0 1px 2px 1px #AAA;
+    width:100%;
+    height:40px;
+    padding:3px;
+    color:white;
+    z-index: 10;
+    position:fixed;
+}
+.userMenu{
+    position:fixed;
+    top:40px;
+    right:40px;
+    background-color:white;
+    font-size:15px;
+    font-weight:300;
+    padding:10px;
+    color:#555;
+    border:1px solid black;
+    box-shadow:-3px 3px 3px 0 #777;
+    border-radius:7px;
+    z-index: 11;
+}
+.userMenu>div{
+    margin:8px 0 8px 0;
+}
+.userMenu .glyphicon{
+    margin-right:5px;
+}
+.userMenu>div:hover{
+    background-color:#EEE;
+}
+
+.userMenu a:link, .userMenu a:visited{
+    color:#333;
+    text-decoration: none;
+}
+
+
+#mainContent{
+    width:100%;
+    /*height:100%;*/
+    float:left;
+    z-index:7;
+    padding:60px 0px 0px 0px;
+}
+
+#mainContent .opaquebg{
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:110%;
+    z-index: -10;
+    background-color:white;
+    opacity:.96;
+}
+
+
+.topNav div{
+    height:100%;
+}
+
+.topNav .logo{
+    width:60px;
+}
+.topNav .logo img{
+    width:90px;
+    height:60px;
+    
+}
+
+.topNav .searchBar{
+    width:40%;
+    margin-left:25%;
+}
+
+.topNav .userProfileInfo{
+    width:50px;
+    height:50px;
+    border-radius:55px;
+    border:4px solid white;
+    overflow:hidden;
+    margin-right:5px;
+    box-shadow: 0 0 3px 1px #AAA;
+}
+.topNav .userProfileInfo img{
+    /*max-height:100%;*/
+    max-width:100%;
+}
+
+#mainContent center .loginControl{
+    box-shadow:0 0 5px 0px #AAA;
+    border-radius:10px;
+    height:400px;
+    width:300px;
+    margin-top:80px;
+    padding:10px;
+    /*background-color:#241219;*/
+    /*color:white;*/
+}
+
+.loginControl .text{
+    /*color:white;*/
+    font-size:30px;
+    font-weight:200;
+}
+
+.loginControl div{
+    margin-bottom:50px;
+}
+
+.loginControl .logo{
+    max-height:100px;
+}
+
+#mainContent>center>div{
+    width:80%;
+    box-shadow: 0 0 3px 1px #AAA;
+    /*height:100%;*/
+    padding:20px;
+    z-index:5;
+    background-color:white;
+    overflow:hidden;
+}
+.homeContent .welcomeText, .searchPage .searchTopText{
+    font-size:30px;
+    text-align:left;
+    font-weight:100;
+    width:100%;
+    background-color:white;
+    /*padding:10px;*/
+}
+
+.homeContent>div,.searchPage>div{
+    background-color:#f2f0f7;
+    /*margin:10px 0 10px 0;*/
+    /*border-radius:10px;*/
+}
+.homeContent .userProfileImage{
+    width:25%;
+    height:250px;
+    padding:10px;
+    margin-top:10px;
+    
+    /*box-shadow:0 0 4px 1px #AAA;*/
+}
+.userProfileImage img{
+    max-width:100%;
+    max-height:100%;
+    border:7px solid white;
+    box-shadow: 0 0 1px 1px #AAA;
+}
+
+.homeContent .notifications{
+    width:72%;
+    height:250px;
+    margin-top:10px;
+    padding:10px;
+}
+
+.heading{
+    width:100%;
+    font-weight:700;
+}
+.heading .numNotifs{
+    font-weight:400;
+    background-color:#5257b1;
+}
+
+.skills{
+    width:100%;
+    height:300px;
+    padding:10px;
+    margin-top:20px;
+}
+
+.notificationsContent,.skillsContent{
+    width:100%;
+    height:90%;
+    overflow-y:auto;
+    text-align:left;
+    margin-top:5px;
+}
+
+.notificationsContent .from{
+    width:30%;
+    display:box;
+    font-weight:300;
+}
+
+
+.notificationsContent li{
+    height:40px;
+}
+
+.notificationsContent li:hover{
+    background-color:#EEF;
+    cursor:pointer;
+}
+
+
+.skillsContent li{
+    height:50px;
+}
+.skillsContent li:hover{
+    background-color:#EEF;
+}
+
+.notificationsContent .subject{
+    width:65%;
+    font-weight:100;
+}
+
+.skillsContent .skill{
+    width:25%;
+}
+.skillsContent .proficiency{
+    width:70%;
+    height:100%;
+}
+
+.skillsContent .progress{
+    width:80%;
+    height:100%;
+}
+
+.skillsContent .addMoreButton{
+    cursor:pointer;
+}
+
+.filters{
+    width:100%;
+    height:90px;
+}
+.filters .heading{
+    margin:10px;
+    font-size:20px;
+    font-weight:400;
+}
+.filters .btn-group{
+    width:60px;
+    margin:0 180px 0 0px;
+    max-width:60px;
+}
+.filters .btn-group:nth-last-child(1){
+    margin-right:120px;
+}
+.filters button{
+    width:180px;
+    max-width:180px;
+    min-width:40px;
+}
+
+.searchResults{
+    width:100%;
+    margin:15px 0 0px 0;
+    padding:10px 10px 0px 10px;
+    /*height:70%;*/
+    /*height:200px;*/
+    /*overflow-y:auto;*/
+}
+
+.searchResults .searchResult{
+    width:100%;
+    height:140px;
+    background-color:white;
+    padding:15px;
+    text-align:left;
+    margin-bottom:15px;
+}
+.searchResult .profilePic{
+    width:110px;
+    height:110px;
+    box-shadow:0 0 3px 1px #AAA;
+    overflow:hidden;
+    border-radius:230px;
+    /*padding:15px;*/
+}
+
+.searchResult .profilePic img{
+    max-width:100%;
+    max-height:100%;
+}
+
+.searchResult .userDetails{
+    margin-left:30px;
+    height:100%;
+    padding-top:10px;
+    width:30%;
+}
+.searchResult .name{
+    font-size:35px;
+    /*font-weight:200;*/
+    color:#7c002c;
+}
+
+.searchResult .skillSet{
+    width:50%;
+    height:100%;
+    overflow-y:auto;
+}
+
+.skillSet .proficiency{
+    width:100%;
+    margin:0px 0 2px 0;
+}
+.skillSet .progress{
+    width:100%;
+}
