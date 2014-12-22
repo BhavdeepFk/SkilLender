@@ -38,19 +38,25 @@ public class AWSNotificationDaoImpl implements NotificationDao {
     }
 
     @Override
-    public void sendNotification(Notification notification) {
+    public boolean sendNotification(Notification notification) {
 
         // Create the subject and body of the message.
-        Content subject = new Content().withData(SUBJECT);
-        String bodyContent = String.format(BODY, notification.getUserIdTo().getName(), notification.getUserIdFrom().getName(), notification.getSkillName(), notification.getUserIdFrom().getEmail());
-        Content textBody = new Content().withData(bodyContent);
-        Body body = new Body().withText(textBody);
+        try{
+            Content subject = new Content().withData(SUBJECT);
+            String bodyContent = String.format(BODY, notification.getUserIdTo().getName(), notification.getUserIdFrom().getName(), notification.getSkillName(), notification.getUserIdFrom().getEmail());
+            Content textBody = new Content().withData(bodyContent);
+            Body body = new Body().withText(textBody);
 
 
-        Message message = new Message().withSubject(subject).withBody(body);
-        Destination destination = new Destination().withToAddresses(new String[]{notification.getUserIdTo().getEmail()});
-        SendEmailRequest request = new SendEmailRequest().withSource(FROM_EMAIL).withDestination(destination).withMessage(message);
-        amazonSES.sendEmail(request);
+            Message message = new Message().withSubject(subject).withBody(body);
+            Destination destination = new Destination().withToAddresses(new String[]{notification.getUserIdTo().getEmail()});
+            SendEmailRequest request = new SendEmailRequest().withSource(FROM_EMAIL).withDestination(destination).withMessage(message);
+            amazonSES.sendEmail(request);
+            return true;
+        }catch (Exception ex){
+            return false;
+        }
+
     }
 
     @Override

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface NotificationDao {
 
-    void sendNotification(Notification notification);
+    boolean sendNotification(Notification notification);
 
     List<Notification> fetchNotification(String userId);
 }

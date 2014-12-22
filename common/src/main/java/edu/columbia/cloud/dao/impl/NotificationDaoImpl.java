@@ -9,8 +9,8 @@ public class NotificationDaoImpl implements NotificationDao {
 
     //TODO: Write to RDS
     @Override
-    public void sendNotification(Notification notification) {
-
+    public boolean sendNotification(Notification notification) {
+        return false;
     }
 
     //TODO: Read from RDS
