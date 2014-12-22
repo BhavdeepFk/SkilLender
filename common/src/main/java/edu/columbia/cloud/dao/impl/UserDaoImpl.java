@@ -1,5 +1,6 @@
 package edu.columbia.cloud.dao.impl;
 
+
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -12,11 +13,16 @@ public class UserDaoImpl implements UserDao {
 	Neo4jUtils neo4j = new Neo4jUtils();
 	private static String USER_TYPE ="Person";
 	private static String SKILL_TYPE ="Skill";
-	private static String USER_SKILL_REALTIONSHIP ="has";
-	private static String USER_USER_REALTIONSHIP ="knows";
+	private static String USER_SKILL_RELATIONSHIP ="has";
+	private static String USER_USER_RELATIONSHIP ="knows";
+	private static String USER_SKILL_RELATIONSHIP_PARAM="strength";
 	
     @Override
     public boolean createUser(User user) {
+    	return createUser(user, 1);
+    }
+    
+    public boolean createUser(User user, int degree){
     	Map<String, Object> propMap = new HashMap<String, Object>();
     	propMap.put("id", user.getId());
     	propMap.put("email", user.getEmail());
@@ -42,7 +48,8 @@ public class UserDaoImpl implements UserDao {
 			}
 				
 			//adding relationship
-			neo4j.addRelationship(nodeUrl, skillURL, USER_SKILL_REALTIONSHIP , skill.getLevel());
+
+			neo4j.addRelationship(nodeUrl, skillURL, USER_SKILL_RELATIONSHIP , skill.getLevel());
 		}
     	
     	//adding friends
@@ -54,9 +61,8 @@ public class UserDaoImpl implements UserDao {
 				createUser(friend);
 				friendUrl = neo4j.getNodeUrlById(friend.getId());
 			}
-    		neo4j.addRelationship(nodeUrl, friendUrl, USER_USER_REALTIONSHIP);
-		}
-    	
+    		neo4j.addRelationship(nodeUrl, friendUrl, USER_USER_RELATIONSHIP);
+		}   	
     	return true;
     }
 
@@ -80,6 +86,11 @@ public class UserDaoImpl implements UserDao {
     	Iterator<Entry<String, Object>> iterator = userProp.entrySet().iterator();
     	User user = new User((String)userProp.get("id"), (String)userProp.get("name"));
     	user.setDob(new Date(Long.parseLong((String)userProp.get("dob"))));
+
+    	user.setGender((String)userProp.get("gender"));
+    	user.setEmail((String)userProp.get("email"));
+    	List<User> userList = new ArrayList<User>();
+
     	while (iterator.hasNext()) {
 			Map.Entry<java.lang.String, java.lang.Object> entry = (Map.Entry<java.lang.String, java.lang.Object>) iterator
 					.next();
@@ -87,6 +98,7 @@ public class UserDaoImpl implements UserDao {
 			Object value = entry.getValue();
 			
 		}
+
     	return null;
     }
 
@@ -95,40 +107,56 @@ public class UserDaoImpl implements UserDao {
         return null;
     }
 
-    
-    public boolean addSkill(String userId, Skill skill, Long strength) {
-    	String nodeUrl = neo4j.getNodeUrlById(userId);
-    	String skillURL = neo4j.getNodeUrlById(skill.getId());
-    	if(skillURL == null){
-			//create skill node
-		}
-    	
-    	String addRelationship = neo4j.addRelationship(nodeUrl, skillURL, USER_SKILL_REALTIONSHIP, "strength",strength );
-    	if(addRelationship == null)
-    		return false;
-    	return true;
-    }
-
-
 	@Override
-	public boolean addSkill(String userId, Skill skill, int level) {
-		return false;
+	public boolean addSkill(String userId, Skill skill, int strength) {
+		String userUrl = neo4j.getNodeUrlById(userId);
+		String skillUrl = neo4j.getNodeUrlByName(skill.getName());
+		String addRelationship = neo4j.addRelationship(userUrl, skillUrl, USER_SKILL_RELATIONSHIP,USER_SKILL_RELATIONSHIP_PARAM,strength);
+		if(addRelationship==null)
+			return false;
+		return true;
 	}
 
 	@Override
 	public boolean removeSkill(String userId, String skillId) {
 		// TODO Auto-generated method stub
-		return false;
+		Map<String, Object> map =new HashMap<String, Object>();
+		map.put("userId", userId);
+		map.put("skillId", skillId);
+		String query="Match (xyz:Person {id:{userId}})-[r:has]-(skills) where skills.id={skillId} delete r";
+		String queryDB = neo4j.queryDB(query, map);
+		if(queryDB==null)
+			return false;
+		return true;
+		
 	}
-
+	
 	@Override
-	public boolean updateSkill(String userId, String skillId) {
+	public boolean updateSkill(String userId, String skillId, int strength) {
 		// TODO Auto-generated method stub
-		return false;
+		Map<String, Object> map =new HashMap<String, Object>();
+		map.put("userId", userId);
+		map.put("skillId", skillId);
+		map.put("strength", strength);
+		String query="Match (xyz:Person {id:{userId}})-[r:has]-(skills) where skills.id={skillId} set skills.strength={strength} return skills.strength";
+		String queryDB = neo4j.queryDB(query, map);
+		if(queryDB==null)
+			return false;
+		return true;
 	}
 
 	@Override
 	public boolean removeUser(String userId) {
-		return false;
+		// TODO Auto-generated method stub
+		Map<String, Object> map =new HashMap<String, Object>();
+		map.put("userId", userId);
+		String query="Match (xyz:Person {id:{userId}})-[r]-()  delete xyz, r";
+		String queryDB = neo4j.queryDB(query, map);
+		if(queryDB==null)
+			return false;
+		return true;
+		
 	}
+
+	
 }

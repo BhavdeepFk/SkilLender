@@ -54,7 +54,7 @@ public class User {
         this.skillList = skillList;
     }
 
-    public void addSkillToList(Skill skill){
+    public void addSkillToList(Skill skill) {
         this.skillList.add(skill);
     }
 

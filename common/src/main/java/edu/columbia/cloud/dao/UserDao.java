@@ -12,13 +12,13 @@ public interface UserDao {
     public User fetchUser(String userId);
 
     public List<User> fetchUsersWithSkill(String skillId);
-
-    public boolean addSkill(String userId, Skill skill, int level);
     
     public boolean removeUser(String userId);
 
     public boolean removeSkill(String userId, String skillId);
 
-    public boolean updateSkill(String userId, String skillId);
+    public boolean updateSkill(String userId, String skillId, int strength);
+
+	public boolean addSkill(String userId, Skill skill, int strength);
 
 }
