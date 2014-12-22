@@ -9,6 +9,9 @@ public class Constants {
     private String appId;
     private String appSecretKey;
     private static Constants instance = null;
+    public static String TWITTER_QUEUE_NAME = "skilLenderUser";
+    public static String TWITTER_QUEUE_URL = "";
+
 
     public static Constants getInstance(){
         if(null == instance){
