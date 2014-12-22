@@ -434,7 +434,7 @@ public class Neo4jUtils {
 	         */
 	        StringBuilder sb = new StringBuilder();
 	        sb.append("{\"query\":");
-	        sb.append(query);
+	        sb.append("\""+query+"\"");
 	        String json="";
 	        if(map!=null && !map.isEmpty())
 	        {
