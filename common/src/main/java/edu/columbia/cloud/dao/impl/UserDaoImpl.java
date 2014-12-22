@@ -42,7 +42,8 @@ public class UserDaoImpl implements UserDao {
 			Skill skill = entry.getKey();
 			String skillURL = neo4j.getNodeUrl(skill.getId());
 			if(skillURL == null){
-				//create skill node
+				if(!createSkill(skill))
+					return false;
 			}
 				
 			//adding relationship
@@ -50,7 +51,7 @@ public class UserDaoImpl implements UserDao {
 		}
     	
     	//adding friends
-    	List<User> friends = user.getFriends();
+    	List<User> friends = user.getConnections();
     	for (User friend : friends) {
 			//check if friend exists
     		String friendUrl = neo4j.getNodeUrl(friend.getId());
@@ -64,8 +65,23 @@ public class UserDaoImpl implements UserDao {
     	return true;
     }
 
+    
+    private boolean createSkill(Skill skill){
+    	Map<String, Object> propMap = new HashMap<String, Object>();
+    	propMap.put("id", skill.getId());
+    	propMap.put("name", skill.getName());
+    	propMap.put("category", skill.getCategory());;
+    	String nodeUrl = neo4j.createNode(propMap);
+    	if(nodeUrl==null)
+    		return false;
+    	neo4j.addLabels(nodeUrl, SKILL_TYPE);
+    	return true;
+    }
+    
+    
     @Override
     public User fetchUser(String userId) {
+    	
     	return null;
     }
 
@@ -86,23 +102,24 @@ public class UserDaoImpl implements UserDao {
     	if(addRelationship == null)
     		return false;
     	return true;
+    }
+    
 
-    }
-    @Override
-    public boolean addSkill(String userId, Skill skill) {
-    	return addSkill(userId, skill, 10L);
-    }
+	@Override
+	public boolean addSkill(String userId, String skillId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
-    @Override
-    public boolean removeSkill(String userId, Skill skill) {
-        return false;
-    }
+	@Override
+	public boolean removeSkill(String userId, String skillId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
-    public boolean updateSkill(String userId, Skill skill,Long strength) {
-        return false;
-    }
-    @Override
-    public boolean updateSkill(String userId, Skill skill) {
-        return updateSkill(userId, skill,10L);
-    }
+	@Override
+	public boolean updateSkill(String userId, String skillId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
