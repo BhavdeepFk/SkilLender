@@ -59,6 +59,7 @@ public class UserREST {
         userInternal.setDob(user.getBirthdayAsDate());
         userInternal.setGender(user.getGender());
         System.out.println(userInternal);
+        //TODO: Send connections to SQS
         Connection<com.restfb.types.User> myFriends = facebookClient.fetchConnection("me/friends", com.restfb.types.User.class);
         System.out.println("Count of my friends: " + myFriends.getData().size());
         System.out.println(myFriends);
@@ -110,8 +111,6 @@ public class UserREST {
         result.putPOJO("user", user);
         return Response.ok().entity(result).build();
     }
-
-
 
 
 

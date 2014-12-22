@@ -3,12 +3,15 @@ package edu.columbia.cloud.rest;
 import edu.columbia.cloud.models.User;
 import edu.columbia.cloud.service.SearchService;
 import edu.columbia.cloud.service.impl.SearchServiceImpl;
+import org.codehaus.jackson.node.JsonNodeFactory;
+import org.codehaus.jackson.node.ObjectNode;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("search")
@@ -24,15 +27,24 @@ public class SearchREST {
     @GET
     @Path("user/{userId}/{skillId}/{level}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<User> fetch(@PathParam("userId") String userId, @PathParam("skillId") String skillId, @PathParam("level") int level){
-        return searchService.fetchUsersWithSkill(userId, skillId, level);
+    public Response fetch(@PathParam("userId") String userId, @PathParam("skillId") String skillId, @PathParam("level") int level){
+        List<User> userList = searchService.fetchUsersWithSkill(userId, skillId, level);
+        ObjectNode result = JsonNodeFactory.instance.objectNode();
+        result.put("result", true);
+        result.putPOJO("users", userList);
+        return Response.ok().entity(result).build();
+
     }
 
     @GET
     @Path("connections/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<User> fetch(@PathParam("userId") String userId){
-        return searchService.fetchUserConnections(userId);
+    public Response fetch(@PathParam("userId") String userId){
+        List<User> userList = searchService.fetchUserConnections(userId);
+        ObjectNode result = JsonNodeFactory.instance.objectNode();
+        result.put("result", true);
+        result.putPOJO("users", userList);
+        return Response.ok().entity(result).build();
     }
 
 
