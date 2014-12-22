@@ -22,10 +22,10 @@ public class SearchREST {
 
 
     @GET
-    @Path("user/{userId}/{skillId}")
+    @Path("user/{userId}/{skillId}/{level}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<User> fetch(@PathParam("userId") String userId, @PathParam("skillId") String skillId){
-        return searchService.fetchUsersWithSkill(userId, skillId);
+    public List<User> fetch(@PathParam("userId") String userId, @PathParam("skillId") String skillId, @PathParam("level") int level){
+        return searchService.fetchUsersWithSkill(userId, skillId, level);
     }
 
     @GET

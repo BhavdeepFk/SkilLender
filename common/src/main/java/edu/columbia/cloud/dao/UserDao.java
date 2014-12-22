@@ -2,6 +2,7 @@ package edu.columbia.cloud.dao;
 
 import java.util.List;
 
+import edu.columbia.cloud.models.Skill;
 import edu.columbia.cloud.models.User;
 
 public interface UserDao {
@@ -12,7 +13,7 @@ public interface UserDao {
 
     public List<User> fetchUsersWithSkill(String skillId);
 
-    public boolean addSkill(String userId, String skillId);
+    public boolean addSkill(String userId, Skill skill, int level);
 
     public boolean removeSkill(String userId, String skillId);
 
