@@ -17,15 +17,15 @@ import org.neo4j.shell.util.json.JSONArray;
 import org.neo4j.shell.util.json.JSONException;
 import org.neo4j.shell.util.json.JSONObject;
 
+import edu.columbia.cloud.models.Constants;
+
 public class Neo4jUtils {
 	
 	private HttpClient client;
-	private final String SERVER_ROOT_URI ="http://localhost:7474/";
-	private final String  API_URL="db/data/node";
-	private final String  CYPHER_URL="db/data/cypher/";
-	
+	private Constants constant;
 	public void init(){
 		client = new HttpClient();
+		constant = constant.getInstance(); 
 	}
 	
 	
@@ -83,6 +83,12 @@ public class Neo4jUtils {
 			}
 		return map;
 	}
+	
+	public void deleteAll(){
+		String query="MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r";
+		queryDB(query, null);
+	}
+	
 	public List<Object> getNeighborsOverRelation(String userId,int level,String...relation){
 		Map<String, Object> map =new HashMap<String, Object>();
 		map.put("param1","\""+ userId +"\"");
@@ -133,7 +139,7 @@ public class Neo4jUtils {
 	    int status = 500;
 	    try{
 	         
-	        String url = SERVER_ROOT_URI;
+	        String url = constant.getNeo4jUri();
 	        HttpClient client = new HttpClient();
 	        GetMethod mGet =   new GetMethod(url);
 	        status = client.executeMethod(mGet);
@@ -164,7 +170,7 @@ public class Neo4jUtils {
     	String output = null;
         String location = null;
         try{
-            String nodePointUrl = SERVER_ROOT_URI + API_URL;
+            String nodePointUrl = constant.getNeo4jUri() + Constants.API_URL;
             PostMethod mPost = new PostMethod(nodePointUrl);
 
             /**
@@ -386,7 +392,7 @@ public class Neo4jUtils {
 			return false;
 		String output = null;
 	    try{
-	        String nodePointUrl = SERVER_ROOT_URI + CYPHER_URL;
+	        String nodePointUrl = constant.getNeo4jUri() + Constants.CYPHER_URL;
 	        HttpClient client = new HttpClient();
 	        PostMethod mPost = new PostMethod(nodePointUrl);
 
@@ -520,7 +526,7 @@ public class Neo4jUtils {
 			return null;
 		String output = null;
 	    try{
-	        String nodePointUrl = SERVER_ROOT_URI + CYPHER_URL;
+	        String nodePointUrl = constant.getNeo4jUri() + Constants.CYPHER_URL;
 	        HttpClient client = new HttpClient();
 	        PostMethod mPost = new PostMethod(nodePointUrl);
 
