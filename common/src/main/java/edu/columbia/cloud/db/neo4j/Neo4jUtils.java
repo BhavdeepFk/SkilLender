@@ -342,14 +342,10 @@ public class Neo4jUtils {
 	    return output;
 	}
 	
-	
-	public HashMap<String, Object> getNode(String id) {
+	public HashMap<String, Object> convertJsonToMap(String json) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("param1", id);
-		String queryDB = queryDB("\"Match (xyz {id:{param1}}) return xyz\"", map);
-		String url="";
 		try{
-			JSONObject jsonObject = new JSONObject(queryDB);
+			JSONObject jsonObject = new JSONObject(json);
 			
 			map.clear();
 			
@@ -357,7 +353,16 @@ public class Neo4jUtils {
 			jsonObject = (JSONObject)(((JSONArray) ((JSONArray)jsonObject.get("data")).get(0)).get(0));
 			JSONObject dataJSON = jsonObject.getJSONObject("data");
 			JSONObject metadataJSON = jsonObject.getJSONObject("metadata");
-			//dataJSON.
+			Iterator keys = dataJSON.keys();
+			while (keys.hasNext()) {
+				String object = (String) keys.next();
+				map.put(object, dataJSON.get(object));
+			}
+			Iterator keys2 = metadataJSON.keys();
+			while (keys2.hasNext()) {
+				String object = (String) keys2.next();
+				map.put(object, metadataJSON.get(object));
+			}
 		}catch(Exception e)
 		{
 			System.err.println("Exception in getting url");
@@ -366,6 +371,19 @@ public class Neo4jUtils {
 		return map;
 	}
 	
+	public HashMap<String, Object> getNodeById(String id) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("param1", id);
+		String queryDB = queryDB("\"Match (xyz {id:{param1}}) return xyz\"", map);
+		return convertJsonToMap(queryDB);
+	}
+	
+	public HashMap<String, Object> getNodeByName(String name) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("param1", "\""+name+"\"");
+		String queryDB = queryDB("\"Match (xyz {name:{param1}}) return xyz\"", map);
+		return convertJsonToMap(queryDB);
+	}
 	
 	public String getNodeUrlById(String id) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -386,7 +404,7 @@ public class Neo4jUtils {
 
 	public String getNodeUrlByName(String name) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("param1", name);
+		map.put("param1", "\""+name+"\"");
 		String queryDB = queryDB("\"Match (xyz {name:{param1}}) return xyz\"", map);
 		String url="";
 		try{

@@ -81,7 +81,17 @@ public class UserDaoImpl implements UserDao {
     
     @Override
     public User fetchUser(String userId) {
-    	
+    	HashMap<String,Object> userProp = neo4j.getNodeById(userId);
+    	Iterator<Entry<String, Object>> iterator = userProp.entrySet().iterator();
+    	User user = new User((String)userProp.get("id"), (String)userProp.get("name"));
+    	user.setDob(Long.parseLong((String)userProp.get("dob")));
+    	while (iterator.hasNext()) {
+			Map.Entry<java.lang.String, java.lang.Object> entry = (Map.Entry<java.lang.String, java.lang.Object>) iterator
+					.next();
+			String key = entry.getKey();
+			Object value = entry.getValue();
+			
+		}
     	return null;
     }
 
