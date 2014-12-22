@@ -1,7 +1,9 @@
 package edu.columbia.cloud.db.neo4j;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -12,6 +14,7 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.neo4j.shell.util.json.JSONArray;
+import org.neo4j.shell.util.json.JSONException;
 import org.neo4j.shell.util.json.JSONObject;
 
 public class Neo4jUtils {
@@ -25,6 +28,107 @@ public class Neo4jUtils {
 		client = new HttpClient();
 	}
 	
+	
+	
+	public Map<String, Object> getNeighborsDeatilsOverRelation(String userId,int level,String...relation) throws JSONException{
+		Map<String, Object> map =new HashMap<String, Object>();
+		map.put("param1","\""+ userId +"\"");
+		String query="Match (a {id:{param1}})-[";
+		if(relation.length==1)
+			query+=":"+relation[0];
+		query+="*";
+		query+="1.."+level;
+		query+="]-(neighbor) RETURN neighbor";
+		String queryDB = queryDB(query, map);
+		
+		JSONObject jsonObject = new JSONObject(queryDB);
+		
+		//jsonObject = (JSONObject)(((JSONArray) ((JSONArray)jsonObject.get("data")).get(0)).get(0));
+		HashMap<String, List<Object>> map2 = new HashMap<String, List<Object>>();
+		//JSONArray columns=(JSONArray) ((JSONArray)jsonObject.get("columns"));
+		JSONArray data=(JSONArray) ((JSONArray)jsonObject.get("data"));
+		System.out.println(data);
+		map= new HashMap<String, Object>();
+		for (int i = 0; i < data.length(); i++) {	
+			JSONArray dataArray = (JSONArray)data.get(i);
+			System.out.println(dataArray);
+			JSONObject jsonObject1 = (JSONObject)dataArray.get(0);
+			HashMap<String, Object> skillMap = new  HashMap<String, Object>();
+			JSONObject dataJSON = jsonObject1.getJSONObject("data");
+			JSONObject metadataJSON = jsonObject1.getJSONObject("metadata");
+			Iterator keys = dataJSON.keys();
+			while (keys.hasNext()) {
+				String object = (String) keys.next();
+				skillMap.put(object, dataJSON.get(object));
+			}
+			Iterator keys2 = metadataJSON.keys();
+			while (keys2.hasNext()) {
+				String object = (String) keys2.next();
+				if(!object.equals("id"))
+					skillMap.put(object, metadataJSON.get(object));
+			}
+			map.put((String)skillMap.get("id"), skillMap);
+			//HashMap<String,Object> convertJsonToMap = neo4jUtils.convertJsonToMap(((JSONObject)dataArray.get(0)).toString());
+			System.out.println(map);
+			/*for (int k = 0; k < dataArray.length(); k++) {
+				try{
+				list = lists.get(k);
+				}catch(Exception e){
+					list= new ArrayList<Object>();
+					lists.add(list);
+				}
+				list.add(dataArray.get(k));
+			}
+	*/
+			}
+		return map;
+	}
+	public List<Object> getNeighborsOverRelation(String userId,int level,String...relation){
+		Map<String, Object> map =new HashMap<String, Object>();
+		map.put("param1","\""+ userId +"\"");
+		String query="Match (a {id:{param1}})-[";
+		if(relation.length==1)
+			query+=":"+relation[0];
+		query+="*";
+		query+="1.."+level;
+		query+="]-(neighbor) RETURN distinct neighbor.id";
+		String queryDB = queryDB(query, map);
+		Map<String, List<Object>> dataFromColumns = getDataFromColumns(queryDB);
+		return dataFromColumns.get("neighbor.id");	
+	}
+	
+	
+	public Map<String, List<Object>> getDataFromColumns(String json){
+		HashMap<String, List<Object>> map2 = new HashMap<String, List<Object>>();
+		try {
+			JSONObject jsonObject = new JSONObject(json);
+			JSONArray columns=(JSONArray) ((JSONArray)jsonObject.get("columns"));
+			JSONArray data=(JSONArray) ((JSONArray)jsonObject.get("data"));
+			List<List<Object>> lists = new ArrayList<List<Object>>();
+			List<Object> list=null;
+			for (int i = 0; i < data.length(); i++) {	
+				JSONArray dataArray = (JSONArray)data.get(i);
+				for (int k = 0; k < dataArray.length(); k++) {
+					try{
+					list = lists.get(k);
+					}catch(Exception e){
+						list= new ArrayList<Object>();
+						lists.add(list);
+					}
+					list.add(dataArray.get(k));
+				}
+			}
+			
+			for (int i = 0; i < columns.length(); i++) {
+				String colName = columns.getString(i);
+				map2.put(colName, lists.get(i));
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return map2;
+	}
 	public int getServerStatus(){
 	    int status = 500;
 	    try{
@@ -78,7 +182,7 @@ public class Neo4jUtils {
              */
             
             JSONObject jsonObject = new JSONObject(properties);
-            System.out.println(jsonObject.toString());
+            System.out.println("Node for Insertion:"+jsonObject.toString());
             StringRequestEntity requestEntity = new StringRequestEntity(jsonObject.toString(),
                                                                         "application/json",
                                                                         "UTF-8");
@@ -88,9 +192,9 @@ public class Neo4jUtils {
             Header locationHeader =  mPost.getResponseHeader("location");
             location = locationHeader.getValue();
             mPost.releaseConnection( );
-            System.out.println("satus : " + satus);
-            System.out.println("location : " + location);
-            System.out.println("output : " + output);
+            System.out.println("Create Node status : " + satus);
+           // System.out.println("location : " + location);
+           // System.out.println("output : " + output);
         }catch(Exception e){
         System.out.println("Exception in creating node in neo4j : " + e);
         }
@@ -170,6 +274,7 @@ public class Neo4jUtils {
 			}
 			String json = jsonString.substring(0, jsonString.length()-1);
 			json+="]";// = "[\"" + label + "\"]";
+			System.out.println(json);
 			StringRequestEntity requestEntity = new StringRequestEntity(json,
 	                                                    "application/json",
 	                                                    "UTF-8");
@@ -178,8 +283,8 @@ public class Neo4jUtils {
 			output = mPut.getResponseBodyAsString( );
 
 			mPut.releaseConnection( );
-			System.out.println("satus : " + satus);
-			System.out.println("output : " + output);
+			System.out.println("add label satus : " + satus);
+			//System.out.println("output : " + output);
 			}catch(Exception e){
 				System.out.println("Exception in creating node in neo4j : " + e);
 		}
@@ -231,11 +336,11 @@ public class Neo4jUtils {
 			Header locationHeader =  mPost.getResponseHeader("location");
 			location = locationHeader.getValue();
 			mPost.releaseConnection( );
-			System.out.println("satus : " + satus);
-			System.out.println("location : " + location);
-			System.out.println("output : " + output);
+			System.out.println("Realtionship satus : " + satus);
+			//System.out.println("location : " + location);
+			//System.out.println("output : " + output);
 			}catch(Exception e){
-				System.out.println("Exception in creating node in neo4j : " + e);
+				System.out.println("Exception in creating relation in neo4j : " + e);
 			}
 
 		return location;
@@ -255,7 +360,7 @@ public class Neo4jUtils {
 		sb.append("\"type\" : \"");
 		sb.append(relationshipType);
 		sb.append("\"");	String s="";
-		if(jsonAttributes.length%2==0)
+		if(jsonAttributes.length%2==0 && jsonAttributes.length>0)
 		 {
 			sb.append(", \"data\" : {");
 			
@@ -467,9 +572,9 @@ public class Neo4jUtils {
 	        //Header locationHeader =  mPost.getResponseHeader("location");
 	       // location = locationHeader.getValue();
 	        mPost.releaseConnection( );
-	        System.out.println("satus : " + satus);
+	        System.out.println("Query DB status : " + satus);
 	        //System.out.println("location : " + location);
-	        System.out.println("output : " + output);
+	       // System.out.println("output : " + output);
 	    }catch(Exception e){
 	    System.out.println("Exception in creating node in neo4j : " + e);
 	    }
@@ -496,6 +601,7 @@ public class Neo4jUtils {
 			Iterator keys2 = metadataJSON.keys();
 			while (keys2.hasNext()) {
 				String object = (String) keys2.next();
+				if(!object.equals("id"))
 				map.put(object, metadataJSON.get(object));
 			}
 		}catch(Exception e)
@@ -508,8 +614,9 @@ public class Neo4jUtils {
 	
 	public HashMap<String, Object> getNodeById(String id) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("param1", id);
-		String queryDB = queryDB("\"Match (xyz {id:{param1}}) return xyz\"", map);
+		map.put("param1","\""+ id+"\"");
+		String queryDB = queryDB("Match (xyz {id:{param1}}) return xyz", map);
+		System.out.println(queryDB);
 		return convertJsonToMap(queryDB);
 	}
 	
@@ -522,8 +629,8 @@ public class Neo4jUtils {
 	
 	public String getNodeUrlById(String id) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("param1", id);
-		String queryDB = queryDB("\"Match (xyz {id:{param1}}) return xyz\"", map);
+		map.put("param1", "\""+id+"\"");
+		String queryDB = queryDB("Match (xyz {id:{param1}}) return xyz", map);
 		String url="";
 		try{
 			JSONObject jsonObject = new JSONObject(queryDB);
@@ -531,7 +638,7 @@ public class Neo4jUtils {
 			url=jsonObject.getString("self");
 		}catch(Exception e)
 		{
-			System.err.println("Exception in getting url");
+			System.err.println("Exception in getting url By ID");
 			return null;
 		}
 		return url;
@@ -540,7 +647,7 @@ public class Neo4jUtils {
 	public String getNodeUrlByName(String name) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("param1", "\""+name+"\"");
-		String queryDB = queryDB("\"Match (xyz {name:{param1}}) return xyz\"", map);
+		String queryDB = queryDB("Match (xyz {name:{param1}}) return xyz", map);
 		String url="";
 		try{
 			JSONObject jsonObject = new JSONObject(queryDB);
@@ -548,7 +655,7 @@ public class Neo4jUtils {
 			url=jsonObject.getString("self");
 		}catch(Exception e)
 		{
-			System.err.println("Exception in getting url");
+			System.err.println("Exception in getting url By Name");
 			return null;
 		}
 		return url;

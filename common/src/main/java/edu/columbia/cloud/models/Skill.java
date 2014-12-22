@@ -5,6 +5,7 @@ public class Skill {
     private String id;
     private String name;
     private String category;
+    private Integer level;
 
     public String getId() {
         return id;
@@ -28,5 +29,13 @@ public class Skill {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 }
