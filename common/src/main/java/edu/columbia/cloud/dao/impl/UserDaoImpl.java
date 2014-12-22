@@ -1,9 +1,6 @@
 package edu.columbia.cloud.dao.impl;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 import edu.columbia.cloud.dao.UserDao;
@@ -84,7 +81,7 @@ public class UserDaoImpl implements UserDao {
     	HashMap<String,Object> userProp = neo4j.getNodeById(userId);
     	Iterator<Entry<String, Object>> iterator = userProp.entrySet().iterator();
     	User user = new User((String)userProp.get("id"), (String)userProp.get("name"));
-    	user.setDob(Long.parseLong((String)userProp.get("dob")));
+    	user.setDob(new Date(Long.parseLong((String)userProp.get("dob"))));
     	while (iterator.hasNext()) {
 			Map.Entry<java.lang.String, java.lang.Object> entry = (Map.Entry<java.lang.String, java.lang.Object>) iterator
 					.next();
@@ -129,6 +126,11 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public boolean updateSkill(String userId, String skillId) {
 		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean removeUser(String userId) {
 		return false;
 	}
 }
