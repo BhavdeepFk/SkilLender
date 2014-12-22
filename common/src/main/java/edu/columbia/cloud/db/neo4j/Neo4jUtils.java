@@ -25,7 +25,7 @@ public class Neo4jUtils {
 	private Constants constant;
 	public void init(){
 		client = new HttpClient();
-		constant = constant.getInstance(); 
+		constant = Constants.getInstance(); 
 	}
 	
 	
