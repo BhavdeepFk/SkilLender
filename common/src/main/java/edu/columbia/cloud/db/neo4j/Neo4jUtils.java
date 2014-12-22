@@ -275,6 +275,141 @@ public class Neo4jUtils {
 		return s;
 	}
 	
+	public boolean deleteRelationship(String startNodeURI,
+	        String endNodeURI) {
+		if(!checkServer())
+			return false;
+		String output = null;
+	    try{
+	        String nodePointUrl = SERVER_ROOT_URI + CYPHER_URL;
+	        HttpClient client = new HttpClient();
+	        PostMethod mPost = new PostMethod(nodePointUrl);
+
+	        /**
+	         * set headers
+	         */
+	        Header mtHeader = new Header();
+	        mtHeader.setName("content-type");
+	        mtHeader.setValue("application/json");
+	        mtHeader.setName("accept");
+	        mtHeader.setValue("application/json");
+	        mPost.addRequestHeader(mtHeader);
+
+	        /**
+	         * set json payload
+	         */
+	        StringBuilder sb = new StringBuilder();
+	        sb.append("{\"query\":");
+	        sb.append("\"MATCH (n)OPTIONAL MATCH (n)-[r]-()DELETE n,r\"");
+	        String json="";
+	        /*if(map!=null && !map.isEmpty())
+	        {
+	        	sb.append(",");
+	        	sb.append("\"params\":{");
+	        	Iterator<Entry<String, Object>> iterator = map.entrySet().iterator();
+	        	while (iterator.hasNext()) {
+					Map.Entry<java.lang.String, java.lang.Object> entry = (Map.Entry<java.lang.String, java.lang.Object>) iterator
+							.next();
+					sb.append("\""+entry.getKey()+"\":");
+					sb.append(""+entry.getValue()+"");
+					sb.append(",");
+				}
+	        	json = sb.substring(0, sb.length()-1);
+	        	json+="}";
+	        }
+	        else*/
+	        	json=sb.toString();
+	       json+="}";
+	        
+	        
+	        
+	        System.out.println(json);
+	        StringRequestEntity requestEntity = new StringRequestEntity(json,
+	                                                                    "application/json",
+	                                                                    "UTF-8");
+	        mPost.setRequestEntity(requestEntity);
+	        int satus = client.executeMethod(mPost);
+	        output = mPost.getResponseBodyAsString( );
+	        //Header locationHeader =  mPost.getResponseHeader("location");
+	       // location = locationHeader.getValue();
+	        mPost.releaseConnection( );
+	        System.out.println("satus : " + satus);
+	        //System.out.println("location : " + location);
+	        System.out.println("output : " + output);
+	    }catch(Exception e){
+	    System.out.println("Exception in creating node in neo4j : " + e);
+	    }
+
+	    return true;
+	}
+	
+	/*public boolean deleteQuery(){
+		if(!checkServer())
+			return null;
+		String output = null;
+	    try{
+	        String nodePointUrl = SERVER_ROOT_URI + CYPHER_URL;
+	        HttpClient client = new HttpClient();
+	        PostMethod mPost = new PostMethod(nodePointUrl);
+
+	        *//**
+	         * set headers
+	         *//*
+	        Header mtHeader = new Header();
+	        mtHeader.setName("content-type");
+	        mtHeader.setValue("application/json");
+	        mtHeader.setName("accept");
+	        mtHeader.setValue("application/json");
+	        mPost.addRequestHeader(mtHeader);
+
+	        *//**
+	         * set json payload
+	         *//*
+	        StringBuilder sb = new StringBuilder();
+	        sb.append("{\"query\":");
+	        sb.append(query);
+	        String json="";
+	        if(map!=null && !map.isEmpty())
+	        {
+	        	sb.append(",");
+	        	sb.append("\"params\":{");
+	        	Iterator<Entry<String, Object>> iterator = map.entrySet().iterator();
+	        	while (iterator.hasNext()) {
+					Map.Entry<java.lang.String, java.lang.Object> entry = (Map.Entry<java.lang.String, java.lang.Object>) iterator
+							.next();
+					sb.append("\""+entry.getKey()+"\":");
+					sb.append(""+entry.getValue()+"");
+					sb.append(",");
+				}
+	        	json = sb.substring(0, sb.length()-1);
+	        	json+="}";
+	        }
+	        else
+	        	json=sb.toString();
+	       json+="}";
+	        
+	        
+	        
+	        System.out.println(json);
+	        StringRequestEntity requestEntity = new StringRequestEntity(json,
+	                                                                    "application/json",
+	                                                                    "UTF-8");
+	        mPost.setRequestEntity(requestEntity);
+	        int satus = client.executeMethod(mPost);
+	        output = mPost.getResponseBodyAsString( );
+	        //Header locationHeader =  mPost.getResponseHeader("location");
+	       // location = locationHeader.getValue();
+	        mPost.releaseConnection( );
+	        System.out.println("satus : " + satus);
+	        //System.out.println("location : " + location);
+	        System.out.println("output : " + output);
+	    }catch(Exception e){
+	    System.out.println("Exception in creating node in neo4j : " + e);
+	    }
+
+	    return output;
+	}
+	*/
 	public  String queryDB(String query, Map<String, Object> map){
 		if(!checkServer())
 			return null;
@@ -342,16 +477,27 @@ public class Neo4jUtils {
 	    return output;
 	}
 	
-	
-	public HashMap<String, Object> getNode(String id) {
+	public HashMap<String, Object> convertJsonToMap(String json) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("param1", id);
-		String queryDB = queryDB("\"Match (xyz {id:{param1}}) return xyz\"", map);
-		String url="";
 		try{
-			JSONObject jsonObject = new JSONObject(queryDB);
+			JSONObject jsonObject = new JSONObject(json);
+			
+			map.clear();
+			
+			
 			jsonObject = (JSONObject)(((JSONArray) ((JSONArray)jsonObject.get("data")).get(0)).get(0));
-			url=jsonObject.getString("self");
+			JSONObject dataJSON = jsonObject.getJSONObject("data");
+			JSONObject metadataJSON = jsonObject.getJSONObject("metadata");
+			Iterator keys = dataJSON.keys();
+			while (keys.hasNext()) {
+				String object = (String) keys.next();
+				map.put(object, dataJSON.get(object));
+			}
+			Iterator keys2 = metadataJSON.keys();
+			while (keys2.hasNext()) {
+				String object = (String) keys2.next();
+				map.put(object, metadataJSON.get(object));
+			}
 		}catch(Exception e)
 		{
 			System.err.println("Exception in getting url");
@@ -360,8 +506,21 @@ public class Neo4jUtils {
 		return map;
 	}
 	
+	public HashMap<String, Object> getNodeById(String id) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("param1", id);
+		String queryDB = queryDB("\"Match (xyz {id:{param1}}) return xyz\"", map);
+		return convertJsonToMap(queryDB);
+	}
 	
-	public String getNodeUrl(String id) {
+	public HashMap<String, Object> getNodeByName(String name) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("param1", "\""+name+"\"");
+		String queryDB = queryDB("\"Match (xyz {name:{param1}}) return xyz\"", map);
+		return convertJsonToMap(queryDB);
+	}
+	
+	public String getNodeUrlById(String id) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("param1", id);
 		String queryDB = queryDB("\"Match (xyz {id:{param1}}) return xyz\"", map);
@@ -378,6 +537,22 @@ public class Neo4jUtils {
 		return url;
 	}
 
+	public String getNodeUrlByName(String name) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("param1", "\""+name+"\"");
+		String queryDB = queryDB("\"Match (xyz {name:{param1}}) return xyz\"", map);
+		String url="";
+		try{
+			JSONObject jsonObject = new JSONObject(queryDB);
+			jsonObject = (JSONObject)(((JSONArray) ((JSONArray)jsonObject.get("data")).get(0)).get(0));
+			url=jsonObject.getString("self");
+		}catch(Exception e)
+		{
+			System.err.println("Exception in getting url");
+			return null;
+		}
+		return url;
+	}
 	/*public String searchDatabase(String nodeURI, String relationShip){
 	    String output = null;
 
