@@ -350,8 +350,14 @@ public class Neo4jUtils {
 		String url="";
 		try{
 			JSONObject jsonObject = new JSONObject(queryDB);
+			
+			map.clear();
+			
+			
 			jsonObject = (JSONObject)(((JSONArray) ((JSONArray)jsonObject.get("data")).get(0)).get(0));
-			url=jsonObject.getString("self");
+			JSONObject dataJSON = jsonObject.getJSONObject("data");
+			JSONObject metadataJSON = jsonObject.getJSONObject("metadata");
+			//dataJSON.
 		}catch(Exception e)
 		{
 			System.err.println("Exception in getting url");
@@ -361,7 +367,7 @@ public class Neo4jUtils {
 	}
 	
 	
-	public String getNodeUrl(String id) {
+	public String getNodeUrlById(String id) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("param1", id);
 		String queryDB = queryDB("\"Match (xyz {id:{param1}}) return xyz\"", map);
@@ -378,6 +384,22 @@ public class Neo4jUtils {
 		return url;
 	}
 
+	public String getNodeUrlByName(String name) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("param1", name);
+		String queryDB = queryDB("\"Match (xyz {name:{param1}}) return xyz\"", map);
+		String url="";
+		try{
+			JSONObject jsonObject = new JSONObject(queryDB);
+			jsonObject = (JSONObject)(((JSONArray) ((JSONArray)jsonObject.get("data")).get(0)).get(0));
+			url=jsonObject.getString("self");
+		}catch(Exception e)
+		{
+			System.err.println("Exception in getting url");
+			return null;
+		}
+		return url;
+	}
 	/*public String searchDatabase(String nodeURI, String relationShip){
 	    String output = null;
 

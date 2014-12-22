@@ -40,7 +40,7 @@ public class UserDaoImpl implements UserDao {
 			
 			//check if skill exists
 			Skill skill = entry.getKey();
-			String skillURL = neo4j.getNodeUrl(skill.getId());
+			String skillURL = neo4j.getNodeUrlByName(skill.getName());
 			if(skillURL == null){
 				if(!createSkill(skill))
 					return false;
@@ -54,10 +54,10 @@ public class UserDaoImpl implements UserDao {
     	List<User> friends = user.getConnections();
     	for (User friend : friends) {
 			//check if friend exists
-    		String friendUrl = neo4j.getNodeUrl(friend.getId());
+    		String friendUrl = neo4j.getNodeUrlById(friend.getId());
     		if(friendUrl == null){
 				createUser(friend);
-				friendUrl = neo4j.getNodeUrl(friend.getId());
+				friendUrl = neo4j.getNodeUrlById(friend.getId());
 			}
     		neo4j.addRelationship(nodeUrl, friendUrl, USER_USER_REALTIONSHIP);
 		}
@@ -92,8 +92,8 @@ public class UserDaoImpl implements UserDao {
 
     
     public boolean addSkill(String userId, Skill skill, Long strength) {
-    	String nodeUrl = neo4j.getNodeUrl(userId);
-    	String skillURL = neo4j.getNodeUrl(skill.getId());
+    	String nodeUrl = neo4j.getNodeUrlById(userId);
+    	String skillURL = neo4j.getNodeUrlById(skill.getId());
     	if(skillURL == null){
 			//create skill node
 		}
