@@ -18,6 +18,9 @@ import org.codehaus.jackson.node.ObjectNode;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,7 +41,7 @@ public class UserREST {
     @GET
     @Path("ping")
     @Produces(MediaType.APPLICATION_JSON)
-    public Object ping(){
+    public Response ping(){
         ObjectNode result = JsonNodeFactory.instance.objectNode();
         result.put("result", "pong");
         return Response.ok().entity(result).build();
@@ -47,7 +50,7 @@ public class UserREST {
     @POST
     @Path("create/{accessToken}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Object create(@PathParam("accessToken") String accessToken){
+    public Response create(@PathParam("accessToken") String accessToken){
         String sqsToken = accessToken;
         FacebookClient facebookClient = new DefaultFacebookClient(accessToken, Constants.getInstance().getAppSecretKey());
         com.restfb.types.User user;
@@ -123,9 +126,21 @@ public class UserREST {
 
     @POST
     @Path("data/{userId}")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Object update(@PathParam("userId") String userId) {
-        
+    public Response update(@PathParam("userId") String userId, InputStream incomingData) {
+
+        StringBuilder sample = new StringBuilder();
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(incomingData));
+            String line = null;
+            while ((line = in.readLine()) != null) {
+                sample.append(line);
+            }
+        } catch (Exception e) {
+            System.out.println("Error Parsing: - ");
+        }
+        System.out.println("Data Received: " + sample.toString());
         ObjectNode result = JsonNodeFactory.instance.objectNode();
         result.put("result", "pong");
         return Response.ok().entity(result).build();
