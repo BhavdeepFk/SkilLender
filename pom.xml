@@ -11,6 +11,7 @@
 
     <module>common</module>
     <module>webapp</module>
+    <module>workers</module>
   </modules>
   <name>skillender</name>
   <url>http://maven.apache.org</url>

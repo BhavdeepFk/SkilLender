@@ -69,10 +69,10 @@ public class UserREST {
         userInternal.setGender(user.getGender());
         System.out.println(userInternal);
         Map<String, String> sqsMsg = new HashMap<String, String>();
-        sqsMsg.put("accessToken", sqsToken);
-        sqsMsg.put("userId", user.getId());
+        sqsMsg.put(Constants.ACCESS_TOKEN, sqsToken);
+        sqsMsg.put(Constants.USER_ID, user.getId());
         String msg = gson.toJson(sqsMsg);
-        sqsService.sendMessage(Constants.TWITTER_QUEUE_URL, msg);
+        sqsService.sendMessage(Constants.SL_QUEUE_URL, msg);
         //Connection<com.restfb.types.User> myFriends = facebookClient.fetchConnection("me/friends", com.restfb.types.User.class);
         //System.out.println("Count of my friends: " + myFriends.getData().size());
         //System.out.println(myFriends);
