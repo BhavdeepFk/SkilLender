@@ -29,14 +29,12 @@ public class UserDaoImpl implements UserDao {
     	neo4j.addLabels(nodeUrl, USER_TYPE);
     	
     	//adding skills
-    	Map<Skill, Long> skillMap = user.getSkillMap();
-    	Iterator<Entry<Skill, Long>> iterator = skillMap.entrySet().iterator();
-    	while (iterator.hasNext()) {
-			Map.Entry<edu.columbia.cloud.models.Skill, java.lang.Long> entry = (Map.Entry<edu.columbia.cloud.models.Skill, java.lang.Long>) iterator
-					.next();
-			
-			//check if skill exists
-			Skill skill = entry.getKey();
+
+    	List<Skill> skillList = user.getSkillList();
+    	//Iterator<Entry<Skill, Integer>> iterator = skillMap.entrySet().iterator();
+
+		for(Skill skill : skillList){
+    	//while (iterator.hasNext()) {
 			String skillURL = neo4j.getNodeUrlByName(skill.getName());
 			if(skillURL == null){
 				if(!createSkill(skill))
@@ -44,7 +42,7 @@ public class UserDaoImpl implements UserDao {
 			}
 				
 			//adding relationship
-			neo4j.addRelationship(nodeUrl, skillURL, USER_SKILL_REALTIONSHIP , entry.getValue());
+			neo4j.addRelationship(nodeUrl, skillURL, USER_SKILL_REALTIONSHIP , skill.getLevel());
 		}
     	
     	//adding friends
