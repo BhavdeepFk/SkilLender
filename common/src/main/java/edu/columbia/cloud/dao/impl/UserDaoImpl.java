@@ -164,7 +164,29 @@ public class UserDaoImpl implements UserDao {
     public User fetchUser(String userId) {
     	return fetchUser(userId, 1);
     }
-    
+    @Override
+    public List<User> fetchUsersWithSkill(String userId, String skillId, int level) {
+    	try{
+    	List<User> users = new ArrayList<User>();
+    	Map<String, Object> map =new HashMap<String, Object>();
+		map.put("skillId", "\""+skillId+"\"");
+		map.put("userId", "\""+userId+"\"");
+		//Match (xyz:Person {id:"123"})-[:knows*1..1]-(friends)-[r:has]-(skills:Skill {id:"s2"}) where r.strength > "4" return friends.name,skills.name,r.strength
+		String query="Match (xyz:Person {id:{userId}})-[:knows*1.."+level+"]-(friends)-[r:has]-(skills:Skill {id:{skillId}}) return friends.id";
+		String queryDB = neo4j.queryDB(query, map);
+		Map<String, List<Object>> dataFromColumns = neo4j.getDataFromColumns(queryDB);
+		List<Object> list = dataFromColumns.get("xyz.id");
+		for (Object object : list) {
+			User user = fetchUser((String)object);
+			users.add(user);
+		}
+		return users;
+    	}catch(Exception e){
+    		System.err.println("User fetch with skills failed");
+    		e.printStackTrace();
+    		return null;
+    	}
+    }
     @Override
     public List<User> fetchUsersWithSkill(String skillId) {
     	try{

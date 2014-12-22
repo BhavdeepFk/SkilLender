@@ -23,9 +23,21 @@
             <artifactId>neo4j-shell</artifactId>
             <version>2.1.6</version>
         </dependency>
-
-
-
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk</artifactId>
+            <version>1.8.10.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.restfb</groupId>
+            <artifactId>restfb</artifactId>
+            <version>1.7.0</version>
+        </dependency>
     </dependencies>
 
 

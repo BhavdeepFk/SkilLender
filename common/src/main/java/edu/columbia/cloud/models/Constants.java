@@ -9,6 +9,12 @@ public class Constants {
     private String appId;
     private String appSecretKey;
     private static Constants instance = null;
+    public static String SL_QUEUE_NAME = "skilLenderUser";
+    public static String SL_QUEUE_URL = "";
+    public static String ACCESS_TOKEN = "accessToken";
+    public static String USER_ID = "userId";
+
+
 
     public static Constants getInstance(){
         if(null == instance){
