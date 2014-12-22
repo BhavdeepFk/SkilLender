@@ -183,6 +183,7 @@ public class UserDaoImpl implements UserDao {
 		Map<String, List<Object>> dataFromColumns = neo4j.getDataFromColumns(queryDB);
 		
 		List<Object> list = dataFromColumns.get("friends.id");
+		if(list!=null)
 		for (Object object : list) {
 			User user = fetchUser((String)object);
 			users.add(user);
