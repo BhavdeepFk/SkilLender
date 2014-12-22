@@ -1,11 +1,7 @@
 package edu.columbia.cloud.dao.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 import java.util.Map.Entry;
 
 import edu.columbia.cloud.dao.UserDao;
@@ -91,9 +87,19 @@ public class UserDaoImpl implements UserDao {
     	Iterator<Entry<String, Object>> iterator = userProp.entrySet().iterator();
     	User user = new User((String)userProp.get("id"), (String)userProp.get("name"));
     	user.setDob(new Date(Long.parseLong((String)userProp.get("dob"))));
+
     	user.setGender((String)userProp.get("gender"));
     	user.setEmail((String)userProp.get("email"));
     	List<User> userList = new ArrayList<User>();
+
+    	while (iterator.hasNext()) {
+			Map.Entry<java.lang.String, java.lang.Object> entry = (Map.Entry<java.lang.String, java.lang.Object>) iterator
+					.next();
+			String key = entry.getKey();
+			Object value = entry.getValue();
+			
+		}
+
     	return null;
     }
 
@@ -152,4 +158,6 @@ public class UserDaoImpl implements UserDao {
 		return true;
 		
 	}
+
+	
 }
