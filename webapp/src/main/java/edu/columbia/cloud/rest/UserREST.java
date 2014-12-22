@@ -7,7 +7,6 @@ import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.restfb.exception.FacebookOAuthException;
 import edu.columbia.cloud.models.Constants;
-import edu.columbia.cloud.models.Skill;
 import edu.columbia.cloud.models.User;
 import edu.columbia.cloud.service.SQSService;
 import edu.columbia.cloud.service.UserService;
@@ -19,9 +18,7 @@ import org.codehaus.jackson.node.ObjectNode;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Path("user")
@@ -73,13 +70,7 @@ public class UserREST {
         sqsMsg.put(Constants.USER_ID, user.getId());
         String msg = gson.toJson(sqsMsg);
         sqsService.sendMessage(Constants.SL_QUEUE_URL, msg);
-        //Connection<com.restfb.types.User> myFriends = facebookClient.fetchConnection("me/friends", com.restfb.types.User.class);
-        //System.out.println("Count of my friends: " + myFriends.getData().size());
-        //System.out.println(myFriends);
-
-        //TODO Uncomment
-        //boolean result = userService.createUser(userInternal);
-        boolean result = true;
+        boolean result = userService.createUser(userInternal);
         ObjectNode response = JsonNodeFactory.instance.objectNode();
         response.put("result", result);
         response.put("id", user.getId());
@@ -91,7 +82,8 @@ public class UserREST {
     @Path("{userId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response fetch(@PathParam("userId") String userId){
-        //User user = userService.fetchUser(userId);
+        User user = userService.fetchUser(userId);
+        /*
         User user = new User("927716317252688", "Bhavdeep Sethi");
         user.setGender("male");
         user.setEmail("believethehype@gmail.com");
@@ -120,6 +112,7 @@ public class UserREST {
         skillList.add(skill2);
         skillList.add(skill3);
         user.setSkillList(skillList);
+        */
 
         ObjectNode result = JsonNodeFactory.instance.objectNode();
         result.put("result", true);
@@ -128,5 +121,13 @@ public class UserREST {
     }
 
 
-
+    @POST
+    @Path("data/{userId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Object update(@PathParam("userId") String userId) {
+        
+        ObjectNode result = JsonNodeFactory.instance.objectNode();
+        result.put("result", "pong");
+        return Response.ok().entity(result).build();
+    }
 }
