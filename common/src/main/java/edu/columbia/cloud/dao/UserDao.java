@@ -1,9 +1,8 @@
 package edu.columbia.cloud.dao;
 
-import edu.columbia.cloud.models.Skill;
-import edu.columbia.cloud.models.User;
-
 import java.util.List;
+
+import edu.columbia.cloud.models.User;
 
 public interface UserDao {
 
