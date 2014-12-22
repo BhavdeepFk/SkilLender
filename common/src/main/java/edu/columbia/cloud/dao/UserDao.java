@@ -19,6 +19,6 @@ public interface UserDao {
 
     public boolean updateSkill(String userId, String skillId, int strength);
 
-	boolean addSkill(String userId, Skill skill, int strength);
+	public boolean addSkill(String userId, Skill skill, int strength);
 
 }
