@@ -14,7 +14,8 @@ public class StartUpServlet implements ServletContextListener{
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         System.out.println("ServletContextListener started");
         SQSService sqsService = new SQSServiceImpl();
-        Constants.TWITTER_QUEUE_URL =  sqsService.createQueue(Constants.TWITTER_QUEUE_NAME);
+        Constants.SL_QUEUE_URL =  sqsService.createQueue(Constants.SL_QUEUE_NAME);
+
     }
 
     @Override
