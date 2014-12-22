@@ -2,6 +2,7 @@ import java.util.List;
 
 import edu.columbia.cloud.dao.UserDao;
 import edu.columbia.cloud.dao.impl.UserDaoImpl;
+import edu.columbia.cloud.db.neo4j.Neo4jUtils;
 import edu.columbia.cloud.models.Skill;
 import edu.columbia.cloud.models.User;
 
@@ -78,10 +79,12 @@ public static void main(String[] args) {
 	//dao.removeSkill(user.getId(), skill3.getId());
 	//dao.removeUser("0");
 	//dao.updateSkill(user.getId(), skill.getId(), 1);
-	List<User> fetchUsersWithSkill = dao.fetchUsersWithSkill(skill.getId());
-	System.out.println();
-	User fetchUser = dao.fetchUser("123");
-	System.out.println();
+	Neo4jUtils neo4jUtils = new Neo4jUtils();
+	//neo4jUtils.deleteAll();
+	//List<User> fetchUsersWithSkill = dao.fetchUsersWithSkill("0", "s3", 1);
+	//System.out.println(fetchUsersWithSkill.get(0).getName());
+	User fetchUser = dao.fetchUser("10152876710411291");
+	System.out.println(fetchUser.getName());
 	
 }
 }
