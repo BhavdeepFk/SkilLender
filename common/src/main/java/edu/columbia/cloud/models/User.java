@@ -12,14 +12,14 @@ public class User {
     private String gender;
     private Date dob;
     private String email;
-    private Map<Skill, Long> skillMap;
+    private Map<Skill, Integer> skillMap;
     private List<User> connections;
 
 	public User(String id, String name){
         this.id = id;
         this.name = name;
         this.connections = new ArrayList<User>();
-        this.skillMap = new HashMap<Skill, Long>();
+        this.skillMap = new HashMap<Skill, Integer>();
     }
 
     public String getId() {
@@ -46,16 +46,16 @@ public class User {
         this.gender = gender;
     }
 
-    public Map<Skill, Long> getSkillMap() {
+    public Map<Skill, Integer> getSkillMap() {
         return skillMap;
     }
 
-    public void setSkillMap(Map<Skill, Long> skillMap) {
+    public void setSkillMap(Map<Skill, Integer> skillMap) {
         this.skillMap = skillMap;
     }
 
-    public void addSkillToMap(Skill skill, Long skillVal){
-        this.skillMap.put(skill, skillVal);
+    public void addSkillToMap(Skill skill, int strength){
+        this.skillMap.put(skill, new Integer(strength));
     }
 
     public Date getDob() {
