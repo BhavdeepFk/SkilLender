@@ -49,11 +49,11 @@ public class Neo4jUtils {
 		HashMap<String, List<Object>> map2 = new HashMap<String, List<Object>>();
 		//JSONArray columns=(JSONArray) ((JSONArray)jsonObject.get("columns"));
 		JSONArray data=(JSONArray) ((JSONArray)jsonObject.get("data"));
-		System.out.println(data);
+		//System.out.println(data);
 		map= new HashMap<String, Object>();
 		for (int i = 0; i < data.length(); i++) {	
 			JSONArray dataArray = (JSONArray)data.get(i);
-			System.out.println(dataArray);
+			//System.out.println(dataArray);
 			JSONObject jsonObject1 = (JSONObject)dataArray.get(0);
 			HashMap<String, Object> skillMap = new  HashMap<String, Object>();
 			JSONObject dataJSON = jsonObject1.getJSONObject("data");
@@ -71,7 +71,7 @@ public class Neo4jUtils {
 			}
 			map.put((String)skillMap.get("id"), skillMap);
 			//HashMap<String,Object> convertJsonToMap = neo4jUtils.convertJsonToMap(((JSONObject)dataArray.get(0)).toString());
-			System.out.println(map);
+			//System.out.println(map);
 			/*for (int k = 0; k < dataArray.length(); k++) {
 				try{
 				list = lists.get(k);
@@ -198,7 +198,7 @@ public class Neo4jUtils {
              */
             
             JSONObject jsonObject = new JSONObject(properties);
-            System.out.println("Node for Insertion:"+jsonObject.toString());
+            System.out.println("Creating Node:"+jsonObject.toString());
             StringRequestEntity requestEntity = new StringRequestEntity(jsonObject.toString(),
                                                                         "application/json",
                                                                         "UTF-8");
@@ -250,11 +250,11 @@ public class Neo4jUtils {
 			output = mPut.getResponseBodyAsString( );
 
 			mPut.releaseConnection( );
-			System.out.println("satus : " + satus);
-			System.out.println("output : " + output);
+			System.out.println("Property add status : " + satus);
+			//System.out.println("output : " + output);
 		}
 		catch(Exception e){
-			//System.out.println("Exception in creating node in neo4j : " + e);
+			System.out.println("Exception in Property add  : " + e);
 		}
 
 	}
@@ -290,7 +290,7 @@ public class Neo4jUtils {
 			}
 			String json = jsonString.substring(0, jsonString.length()-1);
 			json+="]";// = "[\"" + label + "\"]";
-			System.out.println(json);
+			//System.out.println(json);
 			StringRequestEntity requestEntity = new StringRequestEntity(json,
 	                                                    "application/json",
 	                                                    "UTF-8");
@@ -299,10 +299,10 @@ public class Neo4jUtils {
 			output = mPut.getResponseBodyAsString( );
 
 			mPut.releaseConnection( );
-			System.out.println("add label satus : " + satus);
+			System.out.println("add label status : " + satus);
 			//System.out.println("output : " + output);
 			}catch(Exception e){
-				System.out.println("Exception in creating node in neo4j : " + e);
+				System.out.println("Exception in add label : " + e);
 		}
 
 
@@ -319,7 +319,7 @@ public class Neo4jUtils {
 		String location = null;
 		try{
 			String fromUrl = startNodeURI + "/relationships";
-			System.out.println("from url : " + fromUrl);
+			//System.out.println("from url : " + fromUrl);
 
 			String relationshipJson = generateJsonRelationship( endNodeURI,
 	                                     relationshipType,
@@ -352,11 +352,11 @@ public class Neo4jUtils {
 			Header locationHeader =  mPost.getResponseHeader("location");
 			location = locationHeader.getValue();
 			mPost.releaseConnection( );
-			System.out.println("Realtionship satus : " + satus);
+			System.out.println("Realtionship status : " + satus);
 			//System.out.println("location : " + location);
 			//System.out.println("output : " + output);
 			}catch(Exception e){
-				System.out.println("Exception in creating relation in neo4j : " + e);
+				System.out.println("Exception in creating Realtionshi: " + e);
 			}
 
 		return location;
@@ -444,7 +444,7 @@ public class Neo4jUtils {
 	        
 	        
 	        
-	        System.out.println(json);
+	        //System.out.println(json);
 	        StringRequestEntity requestEntity = new StringRequestEntity(json,
 	                                                                    "application/json",
 	                                                                    "UTF-8");
@@ -454,11 +454,11 @@ public class Neo4jUtils {
 	        //Header locationHeader =  mPost.getResponseHeader("location");
 	       // location = locationHeader.getValue();
 	        mPost.releaseConnection( );
-	        System.out.println("satus : " + satus);
+	        System.out.println("deleteRel status : " + satus);
 	        //System.out.println("location : " + location);
-	        System.out.println("output : " + output);
+	        //System.out.println("output : " + output);
 	    }catch(Exception e){
-	    System.out.println("Exception in creating node in neo4j : " + e);
+	    System.out.println("Exception in deleteRel  : " + e);
 	    }
 
 	    return true;
@@ -578,7 +578,7 @@ public class Neo4jUtils {
 	        
 	        
 	        
-	        System.out.println(json);
+	       System.out.println("QUERY"+json);
 	        StringRequestEntity requestEntity = new StringRequestEntity(json,
 	                                                                    "application/json",
 	                                                                    "UTF-8");
@@ -592,7 +592,7 @@ public class Neo4jUtils {
 	        //System.out.println("location : " + location);
 	       // System.out.println("output : " + output);
 	    }catch(Exception e){
-	    System.out.println("Exception in creating node in neo4j : " + e);
+	    System.out.println("Exception in Query DB: " + e);
 	    }
 
 	    return output;
@@ -632,7 +632,7 @@ public class Neo4jUtils {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("param1","\""+ id+"\"");
 		String queryDB = queryDB("Match (xyz {id:{param1}}) return xyz", map);
-		System.out.println(queryDB);
+		//System.out.println(queryDB);
 		return convertJsonToMap(queryDB);
 	}
 	

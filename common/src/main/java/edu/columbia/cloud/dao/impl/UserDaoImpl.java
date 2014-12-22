@@ -36,7 +36,7 @@ public class UserDaoImpl implements UserDao {
     		propMap.put("dob",dob.getTime());
     	
     	User fetchUser = fetchUser(user.getId());
-    	if(fetchUser!=null)
+    	if(fetchUser==null)
     		return false;
     	String nodeUrl = neo4j.createNode(propMap);
     	if(nodeUrl==null)
@@ -45,7 +45,7 @@ public class UserDaoImpl implements UserDao {
     	
     	//adding skills
     	 List<Skill> skillList = user.getSkillList();
-    	 
+    	 if(skillList!=null)
     	 for (Skill skill : skillList) {
  			String skillURL = neo4j.getNodeUrlByName(skill.getName());
  			if(skillURL == null){
@@ -61,6 +61,7 @@ public class UserDaoImpl implements UserDao {
     	
     	//adding friends
     	List<User> friends = user.getConnections();
+    	if(friends!=null)
     	for (User friend : friends) {
 			//check if friend exists
     		String friendUrl = neo4j.getNodeUrlById(friend.getId());
@@ -180,6 +181,7 @@ public class UserDaoImpl implements UserDao {
 		String query="Match (xyz:Person {id:{userId}})-[:knows*1.."+level+"]-(friends)-[r:has]-(skills:Skill {id:{skillId}}) return friends.id";
 		String queryDB = neo4j.queryDB(query, map);
 		Map<String, List<Object>> dataFromColumns = neo4j.getDataFromColumns(queryDB);
+		
 		List<Object> list = dataFromColumns.get("friends.id");
 		for (Object object : list) {
 			User user = fetchUser((String)object);
@@ -187,7 +189,7 @@ public class UserDaoImpl implements UserDao {
 		}
 		return users;
     	}catch(Exception e){
-    		System.err.println("User fetch with skills failed");
+    		System.err.println("fetchUsersWithSkill failed");
     		e.printStackTrace();
     		return null;
     	}
@@ -208,7 +210,7 @@ public class UserDaoImpl implements UserDao {
 		}
 		return users;
     	}catch(Exception e){
-    		System.err.println("User fetch with skills failed");
+    		System.err.println("fetchUsersWithSkill(String skillId) failed");
     		e.printStackTrace();
     		return null;
     	}
