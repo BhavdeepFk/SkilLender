@@ -1,7 +1,6 @@
 package edu.columbia.cloud.rest;
 
 
-import com.google.gson.Gson;
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
@@ -17,8 +16,8 @@ import org.codehaus.jackson.node.ObjectNode;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 @Path("user")
 public class UserREST {
@@ -81,29 +80,31 @@ public class UserREST {
         user.setGender("male");
         user.setEmail("believethehype@gmail.com");
         user.setDob(null);
-        Map<Skill, Integer> skillMap = new HashMap<Skill, Integer>();
+        List<Skill> skillList = new ArrayList<Skill>();
         Skill skill1 = new Skill();
         skill1.setId("1");
         skill1.setName("JAVA");
         skill1.setCategory("Technology");
+        skill1.setLevel(7);
 
         Skill skill2 = new Skill();
         skill2.setId("2");
         skill2.setName("Maggi");
         skill2.setCategory("Cooking");
+        skill2.setLevel(8);
 
         Skill skill3 = new Skill();
         skill3.setId("3");
         skill3.setName("Football");
         skill3.setCategory("Sports");
+        skill3.setLevel(9);
 
 
-        skillMap.put(skill1, 7);
-        skillMap.put(skill2, 8);
-        skillMap.put(skill3, 9);
-        user.setSkillMap(skillMap);
-        Gson gson = new Gson();
-        System.out.println(gson.toJson(user));
+        skillList.add(skill1);
+        skillList.add(skill2);
+        skillList.add(skill3);
+        user.setSkillList(skillList);
+
         ObjectNode result = JsonNodeFactory.instance.objectNode();
         result.put("result", true);
         result.putPOJO("user", user);
