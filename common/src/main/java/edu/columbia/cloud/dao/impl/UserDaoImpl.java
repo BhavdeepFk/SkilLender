@@ -109,7 +109,7 @@ public class UserDaoImpl implements UserDao {
     }
 
 	@Override
-	public boolean addSkill(String userId, Skill skill, long strength) {
+	public boolean addSkill(String userId, Skill skill, int strength) {
 		String userUrl = neo4j.getNodeUrlById(userId);
 		String skillUrl = neo4j.getNodeUrlByName(skill.getName());
 		String addRelationship = neo4j.addRelationship(userUrl, skillUrl, USER_SKILL_RELATIONSHIP,USER_SKILL_RELATIONSHIP_PARAM,strength);
@@ -133,7 +133,7 @@ public class UserDaoImpl implements UserDao {
 	}
 	
 	@Override
-	public boolean updateSkill(String userId, String skillId, long strength) {
+	public boolean updateSkill(String userId, String skillId, int strength) {
 		// TODO Auto-generated method stub
 		Map<String, Object> map =new HashMap<String, Object>();
 		map.put("userId", userId);
