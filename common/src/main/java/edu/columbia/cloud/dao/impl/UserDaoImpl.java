@@ -103,11 +103,10 @@ public class UserDaoImpl implements UserDao {
     		return false;
     	return true;
     }
-    
+
 
 	@Override
-	public boolean addSkill(String userId, String skillId) {
-		// TODO Auto-generated method stub
+	public boolean addSkill(String userId, Skill skill, int level) {
 		return false;
 	}
 

@@ -10,7 +10,7 @@ public class SearchServiceImpl implements SearchService {
 
 
     @Override
-    public List<User> fetchUsersWithSkill(String userId, String skill) {
+    public List<User> fetchUsersWithSkill(String userId, String skill, int level) {
         return null;
     }
 

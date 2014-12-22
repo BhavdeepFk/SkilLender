@@ -24,18 +24,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean addUserSkill(String userId, Skill skill) {
-        return userDao.addSkill(userId, skill);
+    public boolean addUserSkill(String userId, Skill skill, int level) {
+        return userDao.addSkill(userId, skill, level);
     }
 
     @Override
-    public boolean removeUserSkill(String userId, Skill skill) {
-        return userDao.removeSkill(userId, skill);
+    public boolean removeUserSkill(String userId, String skillId) {
+        return false;
     }
 
     @Override
-    public boolean updateUserSkill(String userId, Skill skill) {
-        return userDao.updateSkill(userId, skill);
+    public boolean updateUserSkill(String userId, String skillId, int level) {
+        return false;
     }
 
     @Override
