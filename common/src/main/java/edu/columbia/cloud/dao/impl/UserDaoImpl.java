@@ -138,7 +138,7 @@ public class UserDaoImpl implements UserDao {
 				user.addSkillToList(skill);
 			}
 			
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -149,6 +149,7 @@ public class UserDaoImpl implements UserDao {
     		level--;
     		//for each user run fetchUser( friendUserId, level);
     		List<Object> friendsIds = neo4j.getNeighborsOverRelation(userId, 1, "knows");
+    		if(friendsIds!=null)
         	for (Object friendsId : friendsIds) {
     			User fetchUser = fetchUser((String)friendsId, level);
     			//add friends

@@ -31,6 +31,8 @@ public class Neo4jUtils {
 	
 	
 	public Map<String, Object> getNeighborsDeatilsOverRelation(String userId,int level,String...relation) throws JSONException{
+		if(!checkServer())
+			return null;
 		Map<String, Object> map =new HashMap<String, Object>();
 		map.put("param1","\""+ userId +"\"");
 		String query="Match (a {id:{param1}})-[";
@@ -85,11 +87,15 @@ public class Neo4jUtils {
 	}
 	
 	public void deleteAll(){
+		if(!checkServer())
+			return;
 		String query="MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r";
 		queryDB(query, null);
 	}
 	
 	public List<Object> getNeighborsOverRelation(String userId,int level,String...relation){
+		if(!checkServer())
+			return null;
 		Map<String, Object> map =new HashMap<String, Object>();
 		map.put("param1","\""+ userId +"\"");
 		String query="Match (a {id:{param1}})-[";
@@ -100,11 +106,15 @@ public class Neo4jUtils {
 		query+="]-(neighbor) RETURN distinct neighbor.id";
 		String queryDB = queryDB(query, map);
 		Map<String, List<Object>> dataFromColumns = getDataFromColumns(queryDB);
-		return dataFromColumns.get("neighbor.id");	
+		if(dataFromColumns.containsKey("neighbor.id"))
+			return dataFromColumns.get("neighbor.id");	
+		return null;
 	}
 	
 	
 	public Map<String, List<Object>> getDataFromColumns(String json){
+		if(!checkServer())
+			return null;
 		HashMap<String, List<Object>> map2 = new HashMap<String, List<Object>>();
 		try {
 			JSONObject jsonObject = new JSONObject(json);
@@ -124,12 +134,12 @@ public class Neo4jUtils {
 					list.add(dataArray.get(k));
 				}
 			}
-			
+			if(list!=null)
 			for (int i = 0; i < columns.length(); i++) {
 				String colName = columns.getString(i);
 				map2.put(colName, lists.get(i));
 			}
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
