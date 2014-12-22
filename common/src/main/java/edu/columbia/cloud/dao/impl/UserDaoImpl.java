@@ -34,6 +34,10 @@ public class UserDaoImpl implements UserDao {
     	Date dob = user.getDob();
     	if(dob!=null)
     		propMap.put("dob",dob.getTime());
+    	
+    	User fetchUser = fetchUser(user.getId());
+    	if(fetchUser!=null)
+    		return false;
     	String nodeUrl = neo4j.createNode(propMap);
     	if(nodeUrl==null)
     		return false;
