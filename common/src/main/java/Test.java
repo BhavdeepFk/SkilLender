@@ -70,32 +70,26 @@ public static void main(String[] args) {
 	user4.addSkillToList(skill);
 	
 	
-	
-	
-	//System.out.println(dao.createUser(user));
-	//System.out.println(dao.createUser(user4));
-	//user.addConnection(user4);
-	//user4.getSkillList().remove(skill);
-	//System.out.println(dao.updateUser(user3));
-	//System.out.println(dao.updateUser(user4));
 	Neo4jUtils neo4jUtils = new Neo4jUtils();
-	try {
-		System.out.println(neo4jUtils.genJsonForD3());
-	} catch (JSONException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+	
+	/*System.out.println(dao.createUser(user));
+	System.out.println(dao.createUser(user4));
+	user.addConnection(user4);
+	user4.getSkillList().remove(skill);
+	System.out.println(dao.updateUser(user3));
+	System.out.println(dao.updateUser(user4));
+	
 	//edao.addSkill(user.getId(), skill3, 10);
-	/*List<User> fetchUsersWithSkill = dao.fetchUsersWithSkill("s2");
+	List<User> fetchUsersWithSkill = dao.fetchUsersWithSkill("s2");
 	for (User user5 : fetchUsersWithSkill) {
 		System.out.println(user5.getName());
 	}
 	dao.removeSkill(user.getId(), skill3.getId());
 	//dao.removeUser("0");
 	dao.updateSkill(user.getId(), skill.getId(), 1);
-	Neo4jUtils neo4jUtils = new Neo4jUtils();
+	//Neo4jUtils neo4jUtils = new Neo4jUtils();
 	//neo4jUtils.deleteAll();
-	List<User> fetchUsersWithSkill2 = dao.fetchUsersWithSkill("123", "s3", 1);
+	List<User> fetchUsersWithSkill2 = dao.fetchUsersWithSkill("1", "scala", 1);
 	System.out.println(fetchUsersWithSkill2.get(0).getName());
 	User fetchUser = dao.fetchUser("10152876710411291");
 	System.out.println(fetchUser.getName());
@@ -103,5 +97,6 @@ public static void main(String[] args) {
 	User fetchUser2 = dao.fetchUser("123", 1);
 	System.out.println();
 	*/
+	System.out.println(neo4jUtils.genJsonForD3());
 }
 }
