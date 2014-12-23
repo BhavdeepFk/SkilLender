@@ -155,12 +155,12 @@ var searchQuery=function(request,reply){
 
 
 var userhome=function(request,reply){
-    reply.view('userhome.html');
+    reply.view('userhome.html', request.params);
 };
 
 
 var connections=function(request,reply){
-    reply.view('connections.html');
+    reply.view('connections.html', request.params);
 };
 
 
