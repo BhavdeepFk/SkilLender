@@ -77,7 +77,7 @@ public class UserDaoImpl implements UserDao {
     
     public String createSkill(Skill skill){
     	Map<String, Object> propMap = new HashMap<String, Object>();
-    	propMap.put("id", skill.getId());
+    	propMap.put("id", skill.getName());
     	propMap.put("name", skill.getName());
     	propMap.put("category", skill.getCategory());;
     	String nodeUrl = neo4j.createNode(propMap);
