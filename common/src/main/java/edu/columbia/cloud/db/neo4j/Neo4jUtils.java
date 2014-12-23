@@ -3,12 +3,9 @@ package edu.columbia.cloud.db.neo4j;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
 
 import org.apache.commons.httpclient.Header;
@@ -36,8 +33,10 @@ public class Neo4jUtils {
 		constant = Constants.getInstance(); 
 	}
 	
-	public String genJsonForD3() throws JSONException{
-		String query="Match n return n.id";
+	public String genJsonForD3() {
+		try{
+			String query="Match n return n.id";
+		
 		String queryDB = queryDB(query, null);
 		System.out.println(queryDB);
 		JSONObject jsonObject = new JSONObject(queryDB);
@@ -58,6 +57,9 @@ public class Neo4jUtils {
 		String sbString = sbLinks.substring(0, sbLinks.length()-1);
 		sbString=nodeString+sbString+"]}";
 		return sbString;
+		}catch(Exception e){
+			return"";
+		}
 	}
 	
 	
@@ -696,6 +698,14 @@ public class Neo4jUtils {
 	public HashMap<String, Object> getNodeById(String id) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("param1","\""+ id+"\"");
+		String queryDB = queryDB("Match (xyz {id:{param1}}) return xyz", map);
+		//System.out.println(queryDB);
+		return convertJsonToMap(queryDB);
+	}
+	
+	public HashMap<String, Object> getNodeByLongId(Long id) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("param1", id+"");
 		String queryDB = queryDB("Match (xyz {id:{param1}}) return xyz", map);
 		//System.out.println(queryDB);
 		return convertJsonToMap(queryDB);

@@ -27,6 +27,10 @@ public class UserDaoImpl implements UserDao {
     	User fetchUser = fetchUser(user.getId());
     	if(fetchUser!=null)
     		return false;
+    	HashMap<String, Object> nodeByLongId = neo4j.getNodeByLongId(Long.parseLong(user.getId()));
+    	if(nodeByLongId!=null)
+    		if(nodeByLongId.size()>0)
+    			return false;
     	Map<String, Object> propMap = new HashMap<String, Object>();
     	propMap.put("id", user.getId());
     	propMap.put("email", user.getEmail());
@@ -35,8 +39,6 @@ public class UserDaoImpl implements UserDao {
     	Date dob = user.getDob();
     	if(dob!=null)
     		propMap.put("dob",dob.getTime());
-    	
-    	
     	String nodeUrl = neo4j.createNode(propMap);
     	if(nodeUrl==null)
     		return false;
@@ -90,6 +92,8 @@ public class UserDaoImpl implements UserDao {
     public User fetchUser(String userId, int level) {
     	try{
     	HashMap<String,Object> userProp = neo4j.getNodeById(userId);
+    	if(userProp==null || userProp.isEmpty())
+    		userProp = neo4j.getNodeByLongId(Long.parseLong(userId));
     	Iterator<Entry<String, Object>> iterator = userProp.entrySet().iterator();
     	Object id = userProp.get("id");
     	Object name = userProp.get("name");
@@ -177,10 +181,10 @@ public class UserDaoImpl implements UserDao {
     	try{
     	List<User> users = new ArrayList<User>();
     	Map<String, Object> map =new HashMap<String, Object>();
-		map.put("skillId", "\""+skillName+"\"");
+		map.put("skillName", "\""+skillName+"\"");
 		map.put("userId", "\""+userId+"\"");
 		//Match (xyz:Person {id:"123"})-[:knows*1..1]-(friends)-[r:has]-(skills:Skill {id:"s2"}) where r.strength > "4" return friends.name,skills.name,r.strength
-		String query="Match (xyz:Person {id:{userId}})-[:knows*1.."+level+"]-(friends)-[r:has]-(skills:Skill {id:{skillId}}) return friends.id";
+		String query="Match (xyz:Person {id:{userId}})-[:knows*1.."+level+"]-(friends)-[r:has]-(skills:Skill {name:{skillName}}) return friends.id";
 		String queryDB = neo4j.queryDB(query, map);
 		Map<String, List<Object>> dataFromColumns = neo4j.getDataFromColumns(queryDB);
 		
@@ -284,10 +288,10 @@ public class UserDaoImpl implements UserDao {
     	if(!removeUser)
     		return false;
     	Map<String, Object> propMap = new HashMap<String, Object>();
-    	propMap.put("id", user.getId());
-    	propMap.put("email", user.getEmail());
-    	propMap.put("name", user.getName());
-    	propMap.put("gender", user.getGender());
+    	propMap.put("id", fetchUser.getId());
+    	propMap.put("email", fetchUser.getEmail());
+    	propMap.put("name", fetchUser.getName());
+    	propMap.put("gender", fetchUser.getGender());
     	Date dob = user.getDob();
     	if(dob!=null)
     		propMap.put("dob",dob.getTime());
