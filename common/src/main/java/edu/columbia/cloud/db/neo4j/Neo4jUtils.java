@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -41,45 +42,57 @@ public class Neo4jUtils {
 		System.out.println(queryDB);
 		JSONObject jsonObject = new JSONObject(queryDB);
 		List<Object> list = getDataFromColumns(jsonObject.toString()).get("n.id");
-		Map<String, String> nodeMap = new HashMap<String, String>();
-		Set<String> linkSet = new HashSet<String>();
+		List<String> nodeIds = new ArrayList<String>();
+		StringBuilder sb = new StringBuilder();
+		sb.append("{\"nodes\":[\n");
+		StringBuilder sbLinks = new StringBuilder();
+		sbLinks.append("],\"links\":[");
 		UserDao dao = new UserDaoImpl();
 		for (Object object : list) {
-			if(nodeMap.containsKey((String)object))
+			if(nodeIds.contains((String)object))
 					continue;
 			User fetchUser = dao.fetchUser((String)object, 6);
-			addGraphDataToHashMap(fetchUser, nodeMap, linkSet);
+			addGraphDataToHashMap(fetchUser, nodeIds, sbLinks,sb);
 		}
-		return"";
+		String nodeString = sb.substring(0, sb.length()-1);
+		String sbString = sbLinks.substring(0, sbLinks.length()-1);
+		sbString=nodeString+sbString+"]}";
+		return sbString;
 	}
 	
 	
-	public void addGraphDataToHashMap(User user,Map<String, String> map, Set<String> linkSet){
-		if (map.containsKey(user.getId()))
+	public void addGraphDataToHashMap(User user,List<String> nodeIds, StringBuilder sbLinks, StringBuilder json){
+		if (nodeIds.contains(user.getId()))
 			return;
-		StringBuilder json=new StringBuilder();
-		json.append("{\"name\":\"")	;
+		json.append("\n{\"name\":\"")	;
 		json.append(user.getName());
 		json.append("\",\"group\":1},");
-		map.put(user.getId(), json.toString());
+		nodeIds.add(user.getId());
 		List<Skill> skillList = user.getSkillList();
 		for (Skill skill : skillList) {
-			if (map.containsKey(skill.getId()))
+			if (nodeIds.contains(skill.getId()))
 				continue;
 			else{
-			json =new StringBuilder();
-			json.append("{\"name\":\"")	;
+			nodeIds.add(skill.getId());
+			json.append("\n{\"name\":\"");
 			json.append(skill.getName());
-			json.append("\",\"group\":2},");	
-			map.put(skill.getId(), json.toString());
+			json.append("\",\"group\":2},");
 			}
-			json =new StringBuilder();
-			json.append("{\"source\":\"")	;
-			json.append(skill.getName());
-			json.append("\",\"group\":2},");	
-			
+			sbLinks.append("\n{\"source\":");
+			sbLinks.append(nodeIds.indexOf(user.getId()));
+			sbLinks.append(",\"target\":");
+			sbLinks.append(nodeIds.indexOf(skill.getId()));
+			sbLinks.append(",\"value\":"+skill.getLevel()+"},");
 		}
-		
+		List<User> connections = user.getConnections();
+		for (User user2 : connections) {
+			addGraphDataToHashMap(user2, nodeIds, sbLinks, json);
+			sbLinks.append("\n{\"source\":");
+			sbLinks.append(nodeIds.indexOf(user.getId()));
+			sbLinks.append(",\"target\":");
+			sbLinks.append(nodeIds.indexOf(user2.getId()));
+			sbLinks.append(",\"value\":"+10+"},");
+		}		
 	}
 	
 	public Map<String, Object> getNeighborsDeatilsOverRelation(String userId,int level,String...relation) throws JSONException{

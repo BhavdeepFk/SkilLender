@@ -1,5 +1,7 @@
 import java.util.List;
 
+import org.neo4j.shell.util.json.JSONException;
+
 import edu.columbia.cloud.dao.UserDao;
 import edu.columbia.cloud.dao.impl.UserDaoImpl;
 import edu.columbia.cloud.db.neo4j.Neo4jUtils;
@@ -70,12 +72,19 @@ public static void main(String[] args) {
 	
 	
 	
-	System.out.println(dao.createUser(user));
-	System.out.println(dao.createUser(user4));
+	//System.out.println(dao.createUser(user));
+	//System.out.println(dao.createUser(user4));
 	//user.addConnection(user4);
-	user4.getSkillList().remove(skill);
+	//user4.getSkillList().remove(skill);
 	//System.out.println(dao.updateUser(user3));
-	System.out.println(dao.updateUser(user4));
+	//System.out.println(dao.updateUser(user4));
+	Neo4jUtils neo4jUtils = new Neo4jUtils();
+	try {
+		System.out.println(neo4jUtils.genJsonForD3());
+	} catch (JSONException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 	//edao.addSkill(user.getId(), skill3, 10);
 	/*List<User> fetchUsersWithSkill = dao.fetchUsersWithSkill("s2");
 	for (User user5 : fetchUsersWithSkill) {
