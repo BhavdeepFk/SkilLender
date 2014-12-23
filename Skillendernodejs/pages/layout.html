@@ -41,13 +41,14 @@
             </div>
             <div class="userProfileInfo pull-right">
                 <img src="https://graph.facebook.com/{{id}}/picture?type=normal" alt='UserName'>
+                <input type="hidden" value="{{id}}" id="userId" />
             </div>
 		</div>
 		{{/unless}}
 
         <div class='userMenu notVisible'>
-            <div><span class="glyphicon glyphicon-user"></span><a tabindex="-1" href="../home/{{id}}">Profile</a></div>
-            <div><span class="glyphicon glyphicon-user"></span><a tabindex="-1" href="../connections/{{id}}">Connections</a></div>
+            <div><span class="glyphicon glyphicon-user"></span><a tabindex="-1" href="../../home/{{id}}">Profile</a></div>
+            <div><span class="glyphicon glyphicon-user"></span><a tabindex="-1" href="../../connections/{{id}}">Connections</a></div>
             <!--  <div><span class="glyphicon glyphicon-cog"></span><a tabindex="-1" href="#">Settings</a></div> -->
             <div><span class="glyphicon glyphicon-off"></span><a tabindex="-1" href="#">Logout</a></div>
         </div>
