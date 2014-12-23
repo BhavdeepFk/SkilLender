@@ -15,6 +15,10 @@ public class User {
     private List<Skill> skillList;
     private List<User> connections;
 
+    public User(String id){
+        this(id, null);
+    }
+
 	public User(String id, String name){
         this.id = id;
         this.name = name;

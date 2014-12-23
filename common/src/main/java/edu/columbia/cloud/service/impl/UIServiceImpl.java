@@ -2,6 +2,7 @@ package edu.columbia.cloud.service.impl;
 
 import edu.columbia.cloud.db.neo4j.Neo4jUtils;
 import edu.columbia.cloud.service.UIService;
+import org.neo4j.shell.util.json.JSONException;
 
 public class UIServiceImpl implements UIService {
 

@@ -265,6 +265,11 @@ body{
 .skillsContent .skill{
     width:25%;
 }
+
+.skillsContent .category{
+    width:25%;
+}
+
 .skillsContent .proficiency{
     width:50%;
     height:100%;

@@ -40,6 +40,7 @@ public class Constants {
             appSecretKey = configs.getProperty("fb.secretKey");
             appId = configs.getProperty("fb.accessId");
             serverRootUri = configs.getProperty("neo4j.uri");
+            System.out.println(configs.getProperty("rds.uri"));
             connection = DBConnection.getConnection(configs.getProperty("rds.uri"), configs.getProperty("rds.user"), configs.getProperty("rds.pwd"));        
         } catch (IOException e) {
             e.printStackTrace();
