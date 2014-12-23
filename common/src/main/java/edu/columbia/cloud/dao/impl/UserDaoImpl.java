@@ -199,7 +199,7 @@ public class UserDaoImpl implements UserDao {
 		map.put("skillName", "\""+skillName+"\"");
 		map.put("userId", "\""+userId+"\"");
 		//Match (xyz:Person {id:"123"})-[:knows*1..1]-(friends)-[r:has]-(skills:Skill {id:"s2"}) where r.strength > "4" return friends.name,skills.name,r.strength
-		String query="Match (xyz:Person {id:{userId}})-[:knows*1.."+level+"]-(friends)-[r:has]-(skills:Skill {name:{skillName}}) return friends.id";
+		String query="Match (xyz:Person {id:{userId}})-[:knows*1.."+level+"]-(friends)-[r:has]-(skills:Skill {name:{skillName}}) return distinct(friends.id)";
 		String queryDB = neo4j.queryDB(query, map);
 		Map<String, List<Object>> dataFromColumns = neo4j.getDataFromColumns(queryDB);
 		List<Object> friendsIDList = dataFromColumns.get("friends.id");
@@ -218,13 +218,15 @@ public class UserDaoImpl implements UserDao {
 		if(friendsIDList!=null)
 		for (Object object : friendsIDList) {
 			User user = fetchUser((String)object);
+			List<Skill> updatedSkillList = user.getSkillList();
 			if(test){
 			List<Skill> skillList = user.getSkillList();
 			for (Skill skill : skillList) {
-				if(!skill.getCategory().equalsIgnoreCase(category))
-					skillList.remove(skill);
+				if(skill.getCategory().equalsIgnoreCase(category))
+					updatedSkillList.add(skill);
+				
 			}
-			user.setSkillList(skillList);
+			user.setSkillList(updatedSkillList);
 			}
 			if(!usersId.contains(user.getId()))
 			{
