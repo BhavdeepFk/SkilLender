@@ -15,9 +15,9 @@ import java.util.List;
 
 public class AWSNotificationDaoImpl implements NotificationDao {
     private AmazonSimpleEmailServiceClient amazonSES;
-    private static String FROM_EMAIL = "bhavdeep_sethi@yahoo.in";
-    private static String SUBJECT = "SkilLender user wants your help!";
-    private static String BODY = "Hello %s \n\n SkilLender user, %s wants your help with %s! He can be reached at %s";
+    private static String FROM_EMAIL = "skilender@googlegroups.com";
+    private static String SUBJECT = "SkilLender User wants your help!";
+    private static String BODY = "Hello %s, \n\n SkilLender user, %s wants your help with %s! He can be reached at %s. \n\n\n Regards, \nSkilLender Team";
 
 
     public AWSNotificationDaoImpl() {
@@ -52,6 +52,7 @@ public class AWSNotificationDaoImpl implements NotificationDao {
             Destination destination = new Destination().withToAddresses(new String[]{notification.getUserIdTo().getEmail()});
             SendEmailRequest request = new SendEmailRequest().withSource(FROM_EMAIL).withDestination(destination).withMessage(message);
             amazonSES.sendEmail(request);
+            System.out.println("Sending email to: "+notification.getUserIdTo().getEmail());
             return true;
         }catch (Exception ex){
             return false;
