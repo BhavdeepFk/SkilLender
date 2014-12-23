@@ -50,7 +50,7 @@ public class Neo4jUtils {
 		for (Object object : list) {
 			if(nodeIds.contains((String)object))
 					continue;
-			User fetchUser = dao.fetchUser((String)object, 6);
+			User fetchUser = dao.fetchUser((String)object, 0);
 			addGraphDataToHashMap(fetchUser, nodeIds, sbLinks,sb);
 		}
 		String nodeString = sb.substring(0, sb.length()-1);
