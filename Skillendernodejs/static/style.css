@@ -379,3 +379,14 @@ body{
 .skillSet .progress{
     width:100%;
 }
+
+
+.node {
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.link {
+  stroke: #aaa;
+  stroke-opacity: .6;
+}

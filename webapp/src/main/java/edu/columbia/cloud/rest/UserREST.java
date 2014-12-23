@@ -124,6 +124,7 @@ public class UserREST {
             }
             User user = new User(userId);
             user.setSkillList(skillList);
+
         }catch (UnsupportedEncodingException ue){
 
         } catch (JSONException e) {

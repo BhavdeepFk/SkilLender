@@ -1,0 +1,27 @@
+{"nodes":[
+
+
+
+{"name":"XYZ","group":1},
+
+{"name":"py","group":2},
+
+{"name":"java","group":2},
+
+{"name":"ABC","group":1},
+
+{"name":"scala","group":2},
+
+{"name":"HJK","group":1},
+
+{"name":"LLL","group":1},
+
+{"name":"Shreya Animesh","group":1},
+
+{"name":"Bhavdeep Sethi","group":1}],"links":[
+
+{"source":0,"target":1,"value":5},
+
+{"source":0,"target":2,"value":1},
+
+{"source":3,"target":4,"value":10}]}

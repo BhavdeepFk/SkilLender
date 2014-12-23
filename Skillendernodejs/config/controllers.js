@@ -77,8 +77,7 @@ var homePage=function(request,reply){
     var options = {
       host: 'skillender.elasticbeanstalk.com',
       port: 80,
-      path: '/rest/user/1',
-	  //+request.params.id
+      path: '/rest/user/'+request.params.id,	  
       method: 'GET',
       headers:{
         contentType:'application/json'  
@@ -156,6 +155,10 @@ var userhome=function(request,reply){
 };
 
 
+var connections=function(request,reply){
+    reply.view('connections.html');
+};
+
 
 module.exports=[
     {
@@ -177,6 +180,11 @@ module.exports=[
         method:'GET',
         path:'/search/{userId}/{skill}',
         handler:searchQuery
+    },
+    {
+        method:'GET',
+        path: '/connections',
+        handler: connections
     },
 	
     {
