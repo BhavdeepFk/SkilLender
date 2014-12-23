@@ -21,7 +21,7 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public List<User> fetchUserConnections(String userId) {
-        User user = userDao.fetchUser(userId);
+        User user = userDao.fetchUser(userId, 1);
         return user.getConnections();
     }
 }

@@ -10,6 +10,8 @@ public interface UserDao {
     public boolean createUser(User user);
 
     public User fetchUser(String userId);
+    
+    public User fetchUser(String userId,int levelOfGraph);
 
     public List<User> fetchUsersWithSkill(String skillId);
     

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.neo4j.cypher.internal.compiler.v2_1.docbuilders.internalDocBuilder;
 import org.neo4j.shell.util.json.JSONException;
 
 import edu.columbia.cloud.dao.UserDao;
@@ -87,7 +88,7 @@ public class UserDaoImpl implements UserDao {
     	return nodeUrl;
     }
     
-    
+    @Override
     public User fetchUser(String userId, int level) {
     	try{
     	HashMap<String,Object> userProp = neo4j.getNodeById(userId);
