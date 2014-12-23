@@ -16,7 +16,7 @@
                 <ul class="list-group">
                     <li class="list-group-item">
                         <div class="from pull-left new">Name :</div>
-                        <input type="hidden" name="username" value="{{name}}" />
+                        <input type="hidden" name="username" value="{{name}}" id='userName'/>
                          {{#if name}}                         
                         <div class="subject pull-left"> {{name}}</div>                        
                          {{else}}
@@ -96,8 +96,7 @@
                         </div>
                     </li>
 				{{#each skillList}}
-                    <li class='list-group-item'>
-                        <div class='skill pull-left'>{{this.name}}</div>
+                    <li class='list-group-item skillMainDiv'>
                         <div class='skill pull-left'>{{this.name}}</div>
                         <div class='proficiency pull-right'>
                             <div class="progress pull-left">
@@ -114,72 +113,7 @@
                         </div>
                     </li>
                     {{/each}}
-               <!--     <li class='list-group-item'>
-                        <div class='skill pull-left'>Painting</div>
-                        <div class='proficiency pull-right'>
-                            <div class="progress pull-left">
-                                <div class="progress-bar progress-bar-success" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" role="progressbar" style="width: 70%">
-                                7</div>
-                            </div>
-                            <div class='changeButtons pull-right'>
-                                <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-default changeButton minus"> - </button>
-                                    <button type="button" class="btn btn-default changeButton plus"> + </button>
-                                    <button type="button" class="btn btn-danger changeButton remove"> x </button>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class='list-group-item'>
-                        <div class='skill pull-left'>Cooking skills</div>
-                        <div class='proficiency pull-right'>
-                            <div class="progress pull-left">
-                                <div class="progress-bar progress-bar-success" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" role="progressbar" style="width: 60%">
-                                6</div>
-                            </div>
-                            <div class='changeButtons pull-right'>
-                                <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-default changeButton minus"> - </button>
-                                    <button type="button" class="btn btn-default changeButton plus"> + </button>
-                                    <button type="button" class="btn btn-danger changeButton remove"> x </button>
-                                </div>
-                            </div>
-                        </div>
-                    </li> -->
-					
-                    
-					<!--
-                    <li class='list-group-item addMoreText' style='display:none;'>
-                        <div class='pull-left'></input></div>
-                        <div class='pull-left'>
-                           
-                        </div>
-                        <div class='pull-right'>
-                            <select>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
-                            <option>7</option>
-                            <option>8</option>
-                            <option>9</option>
-                            <option>10</option>
-                            </select>
-                        </div>
-                    </li>
-
-					<li class='list-group-item addMoreText' style='display:none;'>
-                    <select>
-					<option>Technology</option>
-					<option>Cooking</option>
-					<option>Sports</option>
-					<option>Business</option>
-					<option>Entertainment</option>
-					</select>					
-                    </li>
-                    -->
+              
 					
 					<li class='list-group-item addMoreButton centerText'>
                         + Add More
@@ -217,15 +151,14 @@
         $('.progress-bar',$parent).css('width',current+'0%');
         $('.progress-bar',$parent).html(current);
     });
-
     
     $('.addMoreButton').click(function(){
         console.log('add more!')
         addMoreContent = "<li class='list-group-item'>"+
                         "<div class='skill pull-left'>"+
-                            "<input type='text' class='form-control' placeholder='Enter Skill Name' />"+
+                            "<input type='text' id='skillName' class='form-control' placeholder='Enter Skill Name' />"+
                         "</div>"+
-                        "<div class='skill pull-left'>"+
+                        "<div id='category' class='skill pull-left'>"+
                              "<select>"+
                                 "<option>Technology</option>"+
                                 "<option>Cooking</option>"+
@@ -234,7 +167,7 @@
                                 "<option>Entertainment</option>"+
                             "</select>"+
                         "</div>"+
-                        "<div class='proficiency pull-right' >"+
+                        "<div id='proficiency' class='proficiency pull-right' >"+
                             "<div class='progress pull-left'>"+
                                 "<div class='progress-bar progress-bar-success' aria-valuenow='1' aria-valuemin='1' aria-valuemax='10' role='progressbar' style='width: 10%''>"+
                                 "1</div>"+
@@ -248,18 +181,39 @@
                             "</div>"+
                         "</div>"+
                     "</li>";
-
         $('.addMoreButton').before(addMoreContent);
 		
     });
     
-    $('.saveButton').click(function(){
+    /* $('.saveButton').click(function(){
         console.log('savebutton');
+    }); */
+	
+	$( "#target" ).submit(function( ) {
+        var allSkills=[];
+        $('.skillMainDiv').each(function(){
+            allSkills.push({
+                name:$('.skill',this).text(),
+                level:$('.progressbar',this).attr('aria-valuenow')
+            })
+        });
+        console.log(allSkills);
+        $.ajax({
+    		method:'POST',
+            url:'http://skillender.elasticbeanstalk.com/rest/user/{{id}}',
+    		
+            contentType:"application/json; charset=utf-8",
+    		data:{
+                name:$('#skillName').val(),
+                skills:allSkills
+			}
+		}).done(function(){
+		location.reload();
+		});
 
-    });
-	$( "#target" ).submit(function( event ) {
         //alert( "Handler for .submit() called." );
         //event.preventDefault();
-});
+	});
+
     
 </script>
