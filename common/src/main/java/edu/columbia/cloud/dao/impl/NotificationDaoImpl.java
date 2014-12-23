@@ -26,7 +26,10 @@ public class NotificationDaoImpl implements NotificationDao {
     	String sql ="INSERT INTO notification VALUES(?,?,?,?,?)";
         try {
 			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setString(1, notification.getNotificationId());
+			if(notification.getNotificationId()!=null)
+				ps.setString(1, notification.getNotificationId());
+			else
+				ps.setString(1, null);
 			if(notification.getUserIdFrom()!=null)
 				ps.setString(2, notification.getUserIdFrom().getId());
 			else 
