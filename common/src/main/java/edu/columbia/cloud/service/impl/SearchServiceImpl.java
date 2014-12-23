@@ -15,8 +15,8 @@ public class SearchServiceImpl implements SearchService {
 		userDao = new UserDaoImpl();
 	}
     @Override
-    public List<User> fetchUsersWithSkill(String userId, String skill, int level) {
-        return userDao.fetchUsersWithSkill(userId, skill, level);
+    public List<User> fetchUsersWithSkill(String userId, String skillName, int level) {
+        return userDao.fetchUsersWithSkill(userId, skillName, level);
     }
 
     @Override

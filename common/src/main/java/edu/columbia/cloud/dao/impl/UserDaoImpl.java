@@ -173,11 +173,11 @@ public class UserDaoImpl implements UserDao {
     	return fetchUser(userId, 0);
     }
     @Override
-    public List<User> fetchUsersWithSkill(String userId, String skillId, int level) {
+    public List<User> fetchUsersWithSkill(String userId, String skillName, int level) {
     	try{
     	List<User> users = new ArrayList<User>();
     	Map<String, Object> map =new HashMap<String, Object>();
-		map.put("skillId", "\""+skillId+"\"");
+		map.put("skillId", "\""+skillName+"\"");
 		map.put("userId", "\""+userId+"\"");
 		//Match (xyz:Person {id:"123"})-[:knows*1..1]-(friends)-[r:has]-(skills:Skill {id:"s2"}) where r.strength > "4" return friends.name,skills.name,r.strength
 		String query="Match (xyz:Person {id:{userId}})-[:knows*1.."+level+"]-(friends)-[r:has]-(skills:Skill {id:{skillId}}) return friends.id";

@@ -25,10 +25,10 @@ public class SearchREST {
 
 
     @GET
-    @Path("user/{userId}/{skillId}/{level}")
+    @Path("user/{userId}/{skillName}/{level}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response fetch(@PathParam("userId") String userId, @PathParam("skillId") String skillId, @PathParam("level") int level){
-        List<User> userList = searchService.fetchUsersWithSkill(userId, skillId, level);
+    public Response fetch(@PathParam("userId") String userId, @PathParam("skillName") String skillName, @PathParam("level") int level){
+        List<User> userList = searchService.fetchUsersWithSkill(userId, skillName, level);
         ObjectNode result = JsonNodeFactory.instance.objectNode();
         result.put("result", true);
         result.putPOJO("users", userList);

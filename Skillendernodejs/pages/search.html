@@ -1,12 +1,12 @@
 <center>
     <div class="searchPage">
-        <div class='searchTopText'>
+        <div class="searchTopText">
             Showing results for <i> {{searchKey}} </i>
         </div>
 		
-        <div class='searchResults pull-left'>
+        <div class="searchResults pull-left">
 		{{#each users}}
-            <div class="searchResult pull-left" >
+            <div class="searchResult pull-left">
 			
                 <div class="profilePic pull-left">
                     <center><img src="/static/images/user.jpg" alt="user1"></center>
@@ -18,7 +18,7 @@
                 </div>
                 <div class="skillSet pull-right">
 					{{#each this.skillList}}
-                    <div class='proficiency pull-right'>
+                    <div class="proficiency pull-right">
                         <div class="progress pull-left">
                             <div class="progress-bar progress-bar-success" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" role="progressbar" style="width: 30%">
                                 {{this.level}}
@@ -34,10 +34,7 @@
     </div>
 </center>
 
-<script>
-$('.searchResult').click(function(){
-        window.location = '/userhome2'
-  return false;
-});
-		
-    });
+<script type="text/javascript">
+    
+</script>
+
