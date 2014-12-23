@@ -54,7 +54,7 @@ public class UserDaoImpl implements UserDao {
     	 List<Skill> skillList = user.getSkillList();
     	 if(skillList!=null)
     	 for (Skill skill : skillList) {
- 			String skillURL = neo4j.getNodeUrlByName(skill.getName());
+ 			String skillURL = neo4j.getNodeUrlByName(skill.getName().toLowerCase().trim());
  			if(skillURL == null){
  				skillURL = createSkill(skill);
  				if(skillURL == null)
@@ -138,7 +138,7 @@ public class UserDaoImpl implements UserDao {
 				Skill skill = new Skill();
 				skill.setCategory((String)skillMap.get("category"));
 				skill.setId((String)skillMap.get("id"));
-				skill.setName((String)skillMap.get("name"));			
+				skill.setName(((String)skillMap.get("name")).toLowerCase().trim());			
 				
 				//Adding strength part
 				Map<String, Object> map =new HashMap<String, Object>();
@@ -261,7 +261,7 @@ public class UserDaoImpl implements UserDao {
 		System.out.println("addSkill(userId, skill, strength)");
 		System.out.println("Adding Skill"+userId);
 		String userUrl = neo4j.getNodeUrlById(userId);
-		String skillUrl = neo4j.getNodeUrlByName(skill.getName());
+		String skillUrl = neo4j.getNodeUrlByName(skill.getName().toLowerCase().trim());
 		if(skillUrl == null){
 			skillUrl = createSkill(skill);
 			if(skillUrl == null)
@@ -347,7 +347,7 @@ public class UserDaoImpl implements UserDao {
     	 List<Skill> skillList = user.getSkillList();
     	 if(skillList!=null)
     	 for (Skill skill : skillList) {
- 			String skillURL = neo4j.getNodeUrlByName(skill.getName());
+ 			String skillURL = neo4j.getNodeUrlByName(skill.getName().toLowerCase().trim());
  			if(skillURL == null){
  				skillURL = createSkill(skill);
  				if(skillURL == null)
