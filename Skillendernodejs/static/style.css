@@ -177,7 +177,7 @@ body{
     font-size:30px;
     text-align:left;
     font-weight:100;
-    width:100%;
+    width:90%;
     background-color:white;
     /*padding:10px;*/
 }
@@ -188,7 +188,7 @@ body{
     /*border-radius:10px;*/
 }
 .homeContent .userProfileImage{
-    width:25%;
+    width:20%;
     height:250px;
     padding:10px;
     margin-top:10px;
@@ -345,7 +345,7 @@ body{
     width:20%;
 }
 .searchResult .name{
-    font-size:35px;
+    font-size:20px;
     /*font-weight:200;*/
     color:#7c002c;
 }

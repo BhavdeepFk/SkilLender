@@ -9,14 +9,14 @@
             <div class="searchResult pull-left">
 			
                 <div class="profilePic pull-left">
-                    <center><img src="/static/images/user.jpg" alt="user1"></center>
+                    <center><img src="https://graph.facebook.com/{{this.id}}/picture?width=120&height=120" alt="user1"></center>
                 </div>
                 <div class="userDetails pull-left">
                     <div class="name">{{this.name}}</div>
                     <div class="age pull-left"> {{this.dob}} -</div>
                     <div class="gender pull-left">{{this.gender}} </div>
                 </div>
-                <div class="skillSet pull-right">                
+                <div class="skillSet pull-left">                
 					 {{#each this.skillList}} 
                     <div class="skillText pull-left">
                      <div class="centerText">   {{this.name}}      </div>                  
@@ -34,13 +34,13 @@
                     </div>
                      <div class="contact pull-right"> 
                         <div class="pull-left full margin20">
-                        <a href="../../userhome/{{this.id}}" >Visit Profile</a>                        
+                        <!--<a href="../../userhome/{{this.id}}" >Visit Profile</a>-->
                         </div>
                         <div class="pull-left full">
                         <input type="button" value="Contact User" name="contact"></button>
                         </div>
 
-				</div>	
+				    </div>	
 				
 			</div>
 			{{/each}}
