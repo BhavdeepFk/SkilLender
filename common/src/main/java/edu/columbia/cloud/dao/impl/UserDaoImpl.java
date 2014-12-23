@@ -9,9 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.neo4j.cypher.internal.compiler.v2_1.docbuilders.internalDocBuilder;
-import org.neo4j.shell.util.json.JSONException;
-
 import edu.columbia.cloud.dao.UserDao;
 import edu.columbia.cloud.db.neo4j.Neo4jUtils;
 import edu.columbia.cloud.models.Skill;

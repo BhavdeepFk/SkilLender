@@ -12,17 +12,26 @@ var loginPage=function(request,reply){
 
 var homePagePost=function(request, reply){
 
-    console.log("Home Page:"+request.body);
-    request.body = '';
-    request.on("readable", function(){        
-        while (null !== (request.body += request.read())){}
+    console.log("Home Page Post:"+request);
+    
+    var fullBody = '';
+    
+    request.on('data', function(chunk) {
+      // append the current chunk of data to the fullBody variable
+      fullBody += chunk.toString();
     });
+    
+    request.on('end', function() {
+    
+      // request ended -> do something with the data
+      res.writeHead(200, "OK", {'Content-Type': 'text/html'});
+      
+      // parse the received body data
+      var decodedBody = querystring.parse(fullBody);
+      console.log("Body: "+decodedBody);
+  });
 
-    // Do something with it
-    request.on("end", function(){
-        console.log(request.body); //-> POST Parameters as String
-    });
-
+    
     var options = {
       host: 'skillender.elasticbeanstalk.com',
       port: 80,
@@ -182,7 +191,7 @@ module.exports=[
     {
         method:'GET',
         path:'/search/',
-        handler:searchPage
+        handler:searchQuery
     },
 	
     {
