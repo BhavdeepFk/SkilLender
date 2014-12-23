@@ -7,6 +7,10 @@
     float:right;
 }
 
+.pull-center{
+    margin:auto;
+}
+
 .centerText{
     text-align: center;
 }
@@ -254,7 +258,7 @@ body{
     width:25%;
 }
 .skillsContent .proficiency{
-    width:70%;
+    width:50%;
     height:100%;
 }
 
