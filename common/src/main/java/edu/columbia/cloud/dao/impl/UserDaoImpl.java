@@ -24,6 +24,9 @@ public class UserDaoImpl implements UserDao {
 	
     @Override
     public boolean createUser(User user) {
+    	User fetchUser = fetchUser(user.getId());
+    	if(fetchUser!=null)
+    		return false;
     	Map<String, Object> propMap = new HashMap<String, Object>();
     	propMap.put("id", user.getId());
     	propMap.put("email", user.getEmail());
@@ -33,9 +36,7 @@ public class UserDaoImpl implements UserDao {
     	if(dob!=null)
     		propMap.put("dob",dob.getTime());
     	
-    	User fetchUser = fetchUser(user.getId());
-    	if(fetchUser!=null)
-    		return false;
+    	
     	String nodeUrl = neo4j.createNode(propMap);
     	if(nodeUrl==null)
     		return false;
@@ -276,8 +277,55 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean updateUser(User user) {
-		// TODO Auto-generated method stub
-		return false;
+		User fetchUser = fetchUser(user.getId(),1);
+    	if(fetchUser==null)
+    		return createUser(user);
+    	boolean removeUser = removeUser(user.getId());
+    	if(!removeUser)
+    		return false;
+    	Map<String, Object> propMap = new HashMap<String, Object>();
+    	propMap.put("id", user.getId());
+    	propMap.put("email", user.getEmail());
+    	propMap.put("name", user.getName());
+    	propMap.put("gender", user.getGender());
+    	Date dob = user.getDob();
+    	if(dob!=null)
+    		propMap.put("dob",dob.getTime());
+    	
+    	
+    	String nodeUrl = neo4j.createNode(propMap);
+    	if(nodeUrl==null)
+    		return false;
+    	neo4j.addLabels(nodeUrl, USER_TYPE);
+    	
+    	//adding skills
+    	 List<Skill> skillList = user.getSkillList();
+    	 if(skillList!=null)
+    	 for (Skill skill : skillList) {
+ 			String skillURL = neo4j.getNodeUrlByName(skill.getName());
+ 			if(skillURL == null){
+ 				skillURL = createSkill(skill);
+ 				if(skillURL == null)
+ 					return false;
+ 			}
+ 				
+ 			//adding relationship
+ 			neo4j.addRelationship(nodeUrl, skillURL, USER_SKILL_RELATIONSHIP , USER_SKILL_RELATIONSHIP_PARAM,skill.getLevel());
+ 		
+		}
+    	 
+    	List<User> friends = fetchUser.getConnections();
+     	if(friends!=null)
+     	for (User friend : friends) {
+ 			//check if friend exists
+     		String friendUrl = neo4j.getNodeUrlById(friend.getId());
+     		if(friendUrl == null){
+ 				createUser(friend);
+ 				friendUrl = neo4j.getNodeUrlById(friend.getId());
+ 			}
+     		neo4j.addRelationship(nodeUrl, friendUrl, USER_USER_RELATIONSHIP);
+ 		}
+		return true;
 	}
 
 	
