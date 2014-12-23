@@ -131,8 +131,7 @@
 
 <script>
     $(document.body).on('click', '.changeButton' ,function(){    
-        //$('.changeButton').click(function(){
-        console.log('change button!');
+        //$('.changeButton').click(function(){        
         var $parent=$(this).closest('.proficiency');
         var current=parseInt($('.progress-bar',$parent).attr('aria-valuenow'));
         if($(this).hasClass('plus')){
@@ -153,13 +152,12 @@
         $('.progress-bar',$parent).html(current);
     });
     
-    $('.addMoreButton').click(function(){
-        console.log('add more!')
-        addMoreContent = "<li class='list-group-item'>"+
+    $('.addMoreButton').click(function(){        
+        addMoreContent = "<li class='list-group-item skillMainDivNew'>"+
                         "<div class='skill pull-left'>"+
-                            "<input type='text' id='skillName' class='form-control' placeholder='Enter Skill Name' />"+
+                            "<input type='text' id='skillName' class='form-control skillName' placeholder='Enter Skill Name' />"+
                         "</div>"+
-                        "<div id='category' class='skill pull-left'>"+
+                        "<div id='category' class='skill pull-left skillCategory'>"+
                              "<select>"+
                                 "<option>Technology</option>"+
                                 "<option>Cooking</option>"+
@@ -190,7 +188,7 @@
         console.log('savebutton');
     }); */
 	
-	$( "#submitButton" ).click(function( ) {
+    $(document.body).on('click', '#submitButton' ,function(){   	
         var finalData = {};
         var allSkills=[];
         $('.skillMainDiv').each(function(){
@@ -198,6 +196,13 @@
                 name:$('.skill',this).text(),
                 level:$('.progress-bar',this).attr('aria-valuenow'),
                 category:$('.category',this).text(),
+            })
+        });
+        $('.skillMainDivNew').each(function(){
+            allSkills.push({
+                name:$('.skillName',this).val(),
+                level:$('.progress-bar',this).attr('aria-valuenow'),
+                category:$('.skillCategory option:selected',this).text(),
             })
         });
         finalData.allSkills=allSkills;  
@@ -212,7 +217,7 @@
                 skills:finalDataString
 			}
 		}).done(function(){
-		//location.reload();
+		location.reload();
 		});
 
         //alert( "Handler for .submit() called." );

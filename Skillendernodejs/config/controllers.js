@@ -186,7 +186,7 @@ module.exports=[
     },
     {
         method:'GET',
-        path: '/connections',
+        path: '/connections/{id}',
         handler: connections
     },
 	
