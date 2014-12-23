@@ -2,7 +2,10 @@ package edu.columbia.cloud.models;
 
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.Properties;
+
+import edu.columbia.cloud.db.mysql.DBConnection;
 
 public class Constants {
 
@@ -16,6 +19,7 @@ public class Constants {
     private String serverRootUri;// ="http://54.164.38.37:7474/";
     public static String  API_URL="db/data/node";
     public static String  CYPHER_URL="db/data/cypher/";
+    public Connection connection;
 	
 
     public String getNeo4jUri() {
@@ -36,6 +40,7 @@ public class Constants {
             appSecretKey = configs.getProperty("fb.secretKey");
             appId = configs.getProperty("fb.accessId");
             serverRootUri = configs.getProperty("neo4j.uri");
+            connection = DBConnection.getConnection(configs.getProperty("rds.uri"), configs.getProperty("rds.user"), configs.getProperty("rds.pwd"));        
         } catch (IOException e) {
             e.printStackTrace();
         }
