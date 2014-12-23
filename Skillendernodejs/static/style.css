@@ -7,6 +7,14 @@
     float:right;
 }
 
+.full{
+    width:100%;
+}
+
+.margin20{
+    margin: 20px;
+}
+
 .pull-center{
     margin:auto;
 }
@@ -329,7 +337,7 @@ body{
     margin-left:30px;
     height:100%;
     padding-top:10px;
-    width:30%;
+    width:20%;
 }
 .searchResult .name{
     font-size:35px;
@@ -338,13 +346,29 @@ body{
 }
 
 .searchResult .skillSet{
-    width:50%;
+    width:40%;
     height:100%;
     overflow-y:auto;
 }
 
+.searchResult .contact{
+    width:20%;
+    height:100%;
+    overflow-y:auto;
+}
+
+
+.skillSet .skillText{
+    width:50%;
+    margin:0px 0 20px 0;
+}
+
+
+
+
+
 .skillSet .proficiency{
-    width:100%;
+    width:50%;
     margin:0px 0 2px 0;
 }
 .skillSet .progress{

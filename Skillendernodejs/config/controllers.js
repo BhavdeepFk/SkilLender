@@ -115,7 +115,7 @@ var searchQuery=function(request,reply){
     var options = {
       host: 'skillender.elasticbeanstalk.com',
       port: 80,
-      path: '/rest/search/user/1/s3/1',
+      path: '/rest/search/user/3/s2/1',
       //+request.params.id
       method: 'GET',
       headers:{
@@ -137,11 +137,13 @@ var searchQuery=function(request,reply){
       });
       res.on('end', function(){
         queryRes = JSON.parse(data);
-        //console.log("here");
+        queryRes.searchQuery="s2";
+
+        console.log(JSON.stringify(queryRes));
         //var name=user.name;
         
         //console.log( responseOut.user.name, responseOut.user.id);
-        reply.view('search.html',queryRes);
+        reply.view('search.html', queryRes);
        });
       
     });
@@ -173,7 +175,7 @@ module.exports=[
     },
     {
         method:'GET',
-        path:'/search/{skill}',
+        path:'/search/{userId}/{skill}',
         handler:searchQuery
     },
 	

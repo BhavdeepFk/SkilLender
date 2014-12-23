@@ -10,6 +10,17 @@
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
             <!-- Latest compiled and minified JavaScript -->
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+            <script type="text/javascript">
+            
+            $(document).ready(function(){
+                    $('#searchButton').click(function(){
+                        console.log('search!');
+                        var searchVal = $('#searchText').val();
+                        window.location="../search/1/"+searchVal;
+                    });
+            });                
+            </script>
         <!--end bootstrap-->
     </head>
 
@@ -23,8 +34,8 @@
             </div>
             <div class="searchBar pull-left">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for skills, people, etc.">
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+                    <input id="searchText" type="text" class="form-control" placeholder="Search for skills, people, etc.">
+                    <span id="searchButton" class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
                 </div>
             </div>
             <div class="userProfileInfo pull-right">

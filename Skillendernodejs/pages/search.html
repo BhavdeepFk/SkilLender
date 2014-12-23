@@ -1,7 +1,7 @@
 <center>
     <div class="searchPage">
         <div class="searchTopText">
-            Showing results for <i> {{searchKey}} </i>
+            Showing results for <i> {{searchQuery}}: </i>
         </div>
 		
         <div class="searchResults pull-left">
@@ -14,18 +14,32 @@
                 <div class="userDetails pull-left">
                     <div class="name">{{this.name}}</div>
                     <div class="age pull-left"> {{this.dob}} -</div>
-                    <div class="gender pull-left">- {{this.gender}} </div>
+                    <div class="gender pull-left">{{this.gender}} </div>
                 </div>
-                <div class="skillSet pull-right">
-					{{#each this.skillList}}
+                <div class="skillSet pull-right">                
+					 {{#each this.skillList}} 
+                    <div class="skillText pull-left">
+                     <div class="centerText">   {{this.name}}      </div>                  
+                    </div>
+                    
                     <div class="proficiency pull-right">
                         <div class="progress pull-left">
-                            <div class="progress-bar progress-bar-success" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" role="progressbar" style="width: 30%">
+                            
+                            <div class="progress-bar progress-bar-success" aria-valuenow="{{this.level}}" aria-valuemin="0" aria-valuemax="10" role="progressbar" style="width: {{this.level}}0%">
                                 {{this.level}}
                             </div>
                         </div>
+                    </div>                    
+					{{/each}}                   
                     </div>
-					{{/each}}
+                     <div class="contact pull-right"> 
+                        <div class="pull-left full margin20">
+                        <a href="/home/1" >Visit Profile</a>                        
+                        </div>
+                        <div class="pull-left full">
+                        <input type="button" value="Contact User" name="contact"></button>
+                        </div>
+
 				</div>	
 				
 			</div>

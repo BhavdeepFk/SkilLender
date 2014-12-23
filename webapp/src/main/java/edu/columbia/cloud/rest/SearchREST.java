@@ -31,7 +31,9 @@ public class SearchREST {
         List<User> userList = searchService.fetchUsersWithSkill(userId, skillName, level);
         ObjectNode result = JsonNodeFactory.instance.objectNode();
         result.put("result", true);
+        result.put("query", skillName);
         result.putPOJO("users", userList);
+
         return Response.ok().entity(result).build();
 
     }
