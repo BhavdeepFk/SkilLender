@@ -90,7 +90,7 @@
                 <ul class='list-group'>
                 <li class='list-group-item'>
                         <div class='skill pull-left'>Skill</div>
-                        <div class='skill pull-left'>Category</div>
+                        <div class='category pull-left'>Category</div>
                         <div class='proficiency pull-right centerText'>
                             <div class='skill pull-center centerText'>Proficiency</div>                                                        
                         </div>
@@ -98,6 +98,7 @@
 				{{#each skillList}}
                     <li class='list-group-item skillMainDiv'>
                         <div class='skill pull-left'>{{this.name}}</div>
+                        <div class='category pull-left'>{{this.category}}</div>
                         <div class='proficiency pull-right'>
                             <div class="progress pull-left">
                                 <div class="progress-bar progress-bar-success" aria-valuenow="{{level}}" aria-valuemin="1" aria-valuemax="10" role="progressbar" style="width: {{level}}0%">
@@ -119,7 +120,7 @@
                         + Add More
                     </li>
                     <li class='list-group-item saveButton centerText'>
-                        <input type="submit" value="Save Changes" /> 
+                        <input type="button" id="submitButton" value="Save Changes" /> 
                     </li>
                 </ul>
             </div>
@@ -189,26 +190,29 @@
         console.log('savebutton');
     }); */
 	
-	$( "#target" ).submit(function( ) {
+	$( "#submitButton" ).click(function( ) {
+        var finalData = {};
         var allSkills=[];
         $('.skillMainDiv').each(function(){
             allSkills.push({
                 name:$('.skill',this).text(),
-                level:$('.progressbar',this).attr('aria-valuenow')
+                level:$('.progress-bar',this).attr('aria-valuenow'),
+                category:$('.category',this).text(),
             })
         });
-        console.log(allSkills);
+        finalData.allSkills=allSkills;  
+        var finalDataString = JSON.stringify(finalData);      
+        console.log(finalDataString);
         $.ajax({
     		method:'POST',
-            url:'http://skillender.elasticbeanstalk.com/rest/user/{{id}}',
-    		
+            url:'http://skillender.elasticbeanstalk.com/rest/user/data/{{id}}',
+    		dataType: 'json',
             contentType:"application/json; charset=utf-8",
-    		data:{
-                name:$('#skillName').val(),
-                skills:allSkills
+    		data:{                
+                skills:finalDataString
 			}
 		}).done(function(){
-		location.reload();
+		//location.reload();
 		});
 
         //alert( "Handler for .submit() called." );

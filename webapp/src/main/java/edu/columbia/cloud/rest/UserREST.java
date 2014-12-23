@@ -7,21 +7,27 @@ import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.restfb.exception.FacebookOAuthException;
 import edu.columbia.cloud.models.Constants;
+import edu.columbia.cloud.models.Skill;
 import edu.columbia.cloud.models.User;
 import edu.columbia.cloud.service.SQSService;
+import edu.columbia.cloud.service.UIService;
 import edu.columbia.cloud.service.UserService;
 import edu.columbia.cloud.service.impl.SQSServiceImpl;
+import edu.columbia.cloud.service.impl.UIServiceImpl;
 import edu.columbia.cloud.service.impl.UserServiceImpl;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Path("user")
@@ -29,11 +35,13 @@ public class UserREST {
 
     private UserService userService;
     private SQSService sqsService;
+    private UIService uiService;
     private Gson gson;
 
     public UserREST(){
         userService = new UserServiceImpl();
         sqsService = new SQSServiceImpl();
+        uiService = new UIServiceImpl();
         gson = new GsonBuilder().create();
     }
 
@@ -86,36 +94,6 @@ public class UserREST {
     @Produces(MediaType.APPLICATION_JSON)
     public Response fetch(@PathParam("userId") String userId){
         User user = userService.fetchUser(userId);
-        /*
-        User user = new User("927716317252688", "Bhavdeep Sethi");
-        user.setGender("male");
-        user.setEmail("believethehype@gmail.com");
-        user.setDob(null);
-        List<Skill> skillList = new ArrayList<Skill>();
-        Skill skill1 = new Skill();
-        skill1.setId("1");
-        skill1.setName("JAVA");
-        skill1.setCategory("Technology");
-        skill1.setLevel(7);
-
-        Skill skill2 = new Skill();
-        skill2.setId("2");
-        skill2.setName("Maggi");
-        skill2.setCategory("Cooking");
-        skill2.setLevel(8);
-
-        Skill skill3 = new Skill();
-        skill3.setId("3");
-        skill3.setName("Football");
-        skill3.setCategory("Sports");
-        skill3.setLevel(9);
-
-
-        skillList.add(skill1);
-        skillList.add(skill2);
-        skillList.add(skill3);
-        user.setSkillList(skillList);
-        */
 
         ObjectNode result = JsonNodeFactory.instance.objectNode();
         result.put("result", true);
@@ -131,8 +109,49 @@ public class UserREST {
     public Response update(@PathParam("userId") String userId, String body) {
 
         System.out.println("Data Received: " + body);
+        try {
+            String bodyData = java.net.URLDecoder.decode(body.substring(7), "UTF-8");;
+            JSONObject jsonObject = new JSONObject(bodyData);
+            JSONArray allSkills = jsonObject.getJSONArray("allSkills");
+            List<Skill> skillList = new ArrayList<Skill>();
+            for(int counter = 0; counter<allSkills.length(); counter++){
+                JSONObject skillJson = allSkills.getJSONObject(counter);
+                Skill skill = new Skill();
+                skill.setLevel(Integer.parseInt(skillJson.getString("level")));
+                skill.setCategory(skillJson.getString("category"));
+                skill.setName(skillJson.getString("name"));
+                skillList.add(skill);
+            }
+            User user = new User(userId);
+            user.setSkillList(skillList);
+        }catch (UnsupportedEncodingException ue){
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         ObjectNode result = JsonNodeFactory.instance.objectNode();
         result.put("result", "pong");
         return Response.ok().entity(result).build();
     }
+
+
+    @GET
+    @Path("/graph")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response graph(){
+        String graph = uiService.getD3Json();
+        System.out.println(graph);
+
+        ObjectNode result = JsonNodeFactory.instance.objectNode();
+        result.put("result", true);
+        result.putPOJO("graph", graph);
+        return Response.ok().entity(result).build();
+    }
+
+    public static void main(String[] args) {
+        UserREST userREST = new UserREST();
+        userREST.graph();
+    }
+
 }
