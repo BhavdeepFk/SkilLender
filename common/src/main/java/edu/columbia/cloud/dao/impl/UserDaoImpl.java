@@ -351,5 +351,15 @@ public class UserDaoImpl implements UserDao {
 		return true;
 	}
 
+	@Override
+	public boolean addConnection(String userIdFrom, String userIdTo) {
+		String userId = neo4j.getNodeUrlById(userIdFrom);
+		String friendId = neo4j.getNodeUrlById(userIdTo);
+		String addRelationship = neo4j.addRelationship(userId, friendId, USER_USER_RELATIONSHIP);
+		if(addRelationship!=null)
+			return true;
+		return false;
+	}
+
 	
 }

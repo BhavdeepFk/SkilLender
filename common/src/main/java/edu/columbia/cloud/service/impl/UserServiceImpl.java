@@ -30,16 +30,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean removeUserSkill(String userId, String skillId) {
-        return false;
+        return userDao.removeSkill(userId, skillId);
     }
 
     @Override
     public boolean updateUserSkill(String userId, String skillId, int level) {
-        return false;
+        return userDao.updateSkill(userId, skillId, level);
     }
 
     @Override
     public boolean makeConnection(String userId, String anotherUserId) {
-        return false;
+        return userDao.addConnection(userId, anotherUserId);
     }
+
+	@Override
+	public boolean updateUser(User user) {
+		// TODO Auto-generated method stub
+		return userDao.updateUser(user);
+	}
 }
