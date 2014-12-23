@@ -17,7 +17,8 @@
                     $('#searchButton').click(function(){
                         console.log('search!');
                         var searchVal = $('#searchText').val();
-                        window.location="../search/1/"+searchVal;
+                       // window.location="../search/1/"+searchVal;
+						window.location="../search/{{id}}/"+searchVal;
                     });
             });                
             </script>
@@ -63,10 +64,8 @@
             $('.userMenu').mouseleave(function(){
                 $(this).addClass('notVisible');
             });
-
         </script>
         
     </body>
 
 </html>
-
