@@ -79,12 +79,7 @@ public static void main(String[] args) {
 	//System.out.println(dao.updateUser(user3));
 	//System.out.println(dao.updateUser(user4));
 	Neo4jUtils neo4jUtils = new Neo4jUtils();
-	try {
-		System.out.println(neo4jUtils.genJsonForD3());
-	} catch (JSONException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+	System.out.println(neo4jUtils.genJsonForD3());
 	//edao.addSkill(user.getId(), skill3, 10);
 	/*List<User> fetchUsersWithSkill = dao.fetchUsersWithSkill("s2");
 	for (User user5 : fetchUsersWithSkill) {
