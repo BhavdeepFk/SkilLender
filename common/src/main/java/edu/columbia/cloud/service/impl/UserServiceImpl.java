@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean makeConnection(String userId, String anotherUserId) {
-        return false;
+        return userDao.addConnection(userId, anotherUserId);
     }
 
 	@Override

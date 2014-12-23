@@ -28,5 +28,7 @@ public interface UserDao {
     public boolean updateSkill(String userId, String skillId, int strength);
 
 	public boolean addSkill(String userId, Skill skill, int strength);
+	
+	public boolean addConnection(String userIdFrom, String userIdTo);
 
 }
