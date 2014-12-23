@@ -36,7 +36,7 @@ public class UserDaoImpl implements UserDao {
     		propMap.put("dob",dob.getTime());
     	
     	User fetchUser = fetchUser(user.getId());
-    	if(fetchUser==null)
+    	if(fetchUser!=null)
     		return false;
     	String nodeUrl = neo4j.createNode(propMap);
     	if(nodeUrl==null)
@@ -130,8 +130,11 @@ public class UserDaoImpl implements UserDao {
 				map.put("skillId", "\""+skill.getId()+"\"");
 				String query="Match (xyz:Person {id:{userId}})-[r:has]-(skills:Skill {id :{skillId}})  return r.strength";
 				String queryDB = neo4j.queryDB(query, map);
-				Integer strength = Integer.parseInt((String) neo4j.getDataFromColumns(queryDB).get("r.strength").get(0));
-				skill.setLevel(strength);
+				Object object = neo4j.getDataFromColumns(queryDB).get("r.strength").get(0);
+				if(object instanceof String)
+					skill.setLevel(Integer.parseInt((String) object));
+				else
+					skill.setLevel((Integer)object);
 				
 				//Match (xyz:Person {name:"XYZ"})-[r:has]-(skills:Skill {id :{skillId}}) return r.strength
 				
@@ -168,7 +171,7 @@ public class UserDaoImpl implements UserDao {
     
     @Override
     public User fetchUser(String userId) {
-    	return fetchUser(userId, 1);
+    	return fetchUser(userId, 0);
     }
     @Override
     public List<User> fetchUsersWithSkill(String userId, String skillId, int level) {
