@@ -1,0 +1,76 @@
+<center>
+    <div class="homeContent">
+        <div class="welcomeText">
+            Hello {{user.name}}
+        </div>
+        <div class="userProfileImage pull-left">
+            <img src="/static/images/user.jpg" alt="sample user name">
+        </div>
+        <div class="notifications pull-right">
+            <div class="heading">
+                Contact Details:
+                
+            </div>
+            <div class="notificationsContent">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <div class="from pull-left new">Name: {{user.name}}</div>
+                       
+                    </li>
+                    <li class="list-group-item">
+                        <div class="from pull-left new">Age: {{user.age}}</div>
+                        
+                    </li>
+                    <li class="list-group-item">
+                        <div class="from pull-left new">Gender: {{user.gender}}</div>
+                       
+                    </li>
+                    <li class="list-group-item">
+                        <div class="from pull-left">Work: {{user.occupation}}</div>
+                        
+                    </li>
+					<li class="list-group-item">
+                        <div class="from pull-left">Location: {{user.city}}</div>
+                        
+                    </li>
+					<li class="list-group-item">
+                        <div class="from pull-left">Contact:{{user.contact}}</div>
+                        
+                    </li>
+					<li class="list-group-item">
+                        <div class="from pull-left">Email: {{user.email}}</div>
+                        
+                    </li>
+                </ul>
+            </div> 
+        </div>
+        <div class="skills pull-left">
+            <div class="heading">Skills</div>
+            <div class='skillsContent'>
+                <ul class='list-group'>
+                    {{#each user.skillList}}
+                    <li class='list-group-item'>
+                        <div class='skill pull-left'>{{name}}</div>
+                        <div class='proficiency pull-right'>
+                            <div class="progress pull-left">
+                                <div class="progress-bar progress-bar-success" aria-valuenow="{{level}}0" aria-valuemin="0" aria-valuemax="100" role="progressbar" style="width: {{level}}0%">
+                                {{level}}</div>
+                            </div>
+                           <!-- <div class='changeButtons pull-right'>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-default changeButton minus"> - </button>
+                                    <button type="button" class="btn btn-default changeButton plus"> + </button>
+                                </div>
+                            </div> -->
+                        </div>
+                    </li>
+                    {{/each}}
+                    
+                    <!--<li class='list-group-item addMoreButton centerText'>
+                        + Add More
+                    </li>-->
+                </ul>
+            </div>
+        </div>
+    </div>
+</center>

@@ -1,14 +1,72 @@
+
+
 <center>
     <div class="loginControl">
         <img class="logo" src="/static/images/icon.png" alt="skillender">
         <div class="text">
             Sign into Skillender:
         </div>
-        <div class="fblogin">
-            facebook login
-        </div>
-        <div class="linkedinLogin">
-            linkedin
-        </div>
-    </div>
+		<fb:login-button scope="public_profile,email,user_likes,user_friends" onlogin="logInUser();"></fb:login-button>
 </center>
+<script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '1526756177576946',
+          cookie     : true,
+          xfbml      : true,
+          version    : 'v2.1'
+        });
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+
+var logInUser=function(){
+  FB.getLoginStatus(function(fbResponse) {
+    console.log(fbResponse);
+    if (fbResponse.status === 'connected') {
+      var accessKey=fbResponse.authResponse.accessToken;
+      console.log(accessKey);
+
+
+      $.ajax({
+        type:'POST',
+        url:'http://skillender.elasticbeanstalk.com/rest/user/create/'+accessKey,
+        contentType:"application/json; charset=utf-8",
+      }).success(function(ajaxResponse){
+        console.log("** USER CREATED ***");
+        var userId=ajaxResponse.id;
+        window.location='/home/'+userId;
+      });
+    }
+  });
+}
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+//   Below we include the Login Button social plugin. This button uses
+//   the JavaScript SDK to present a graphical Login button that triggers
+//   the FB.login() function when clicked.
+// -->
