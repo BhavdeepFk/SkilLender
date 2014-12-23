@@ -37,10 +37,6 @@ public class UserDaoImpl implements UserDao {
     		}
     	else
     		return false;
-    	HashMap<String, Object> nodeByLongId = neo4j.getNodeByLongId(Long.parseLong(user.getId()));
-    	if(nodeByLongId!=null)
-    		if(nodeByLongId.size()>0)
-    			return false;
     	Map<String, Object> propMap = new HashMap<String, Object>();
     	propMap.put("id", user.getId());
     	propMap.put("email", user.getEmail());
@@ -86,6 +82,7 @@ public class UserDaoImpl implements UserDao {
     }
     
     public String createSkill(Skill skill){
+    	System.out.println("Creating skill........");
     	Map<String, Object> propMap = new HashMap<String, Object>();
     	propMap.put("id", skill.getName());
     	propMap.put("name", skill.getName());
@@ -100,6 +97,7 @@ public class UserDaoImpl implements UserDao {
     
     @Override
     public User fetchUser(String userId, int level) {
+    	System.out.println(" fetchUser(String userId, int level)........");
     	try{
     	HashMap<String,Object> userProp = neo4j.getNodeById(userId);
     	if(userProp==null || userProp.isEmpty())
@@ -121,14 +119,14 @@ public class UserDaoImpl implements UserDao {
     	Object email = userProp.get("email");
     	user.setGender(gender==null?"":(String)gender);
     	user.setEmail(email==null?"":(String)email);
-    	List<User> userList = new ArrayList<User>();
+    	/*List<User> userList = new ArrayList<User>();
     	while (iterator.hasNext()) {
 			Map.Entry<java.lang.String, java.lang.Object> entry = (Map.Entry<java.lang.String, java.lang.Object>) iterator
 					.next();
 			String key = entry.getKey();
 			Object value = entry.getValue();
 			
-		}
+		}*/
     	//add skills
     	 try {
 			Map<String, Object> neighborsDeatilsOverRelation = neo4j.getNeighborsDeatilsOverRelation(userId, 1, "has");
@@ -193,6 +191,7 @@ public class UserDaoImpl implements UserDao {
     }
     @Override
     public List<User> fetchUsersWithSkill(String userId, String skillName, int level) {
+    	System.out.println(" fetchUsersWithSkil........");
     	try{
     	List<User> users = new ArrayList<User>();
     	Map<String, Object> map =new HashMap<String, Object>();
@@ -259,6 +258,8 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean addSkill(String userId, Skill skill, int strength) {
+		System.out.println("addSkill(userId, skill, strength)");
+		System.out.println("Adding Skill"+userId);
 		String userUrl = neo4j.getNodeUrlById(userId);
 		String skillUrl = neo4j.getNodeUrlByName(skill.getName());
 		if(skillUrl == null){
@@ -274,6 +275,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean removeSkill(String userId, String skillId) {
+		System.out.println("remove skill");
 		// TODO Auto-generated method stub
 		Map<String, Object> map =new HashMap<String, Object>();
 		map.put("userId", "\""+userId+"\"");
@@ -288,6 +290,7 @@ public class UserDaoImpl implements UserDao {
 	
 	@Override
 	public boolean updateSkill(String userId, String skillId, int strength) {
+		System.out.println("update skill");
 		// TODO Auto-generated method stub
 		Map<String, Object> map =new HashMap<String, Object>();
 		map.put("userId", "\""+userId+"\"");
@@ -302,10 +305,11 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean removeUser(String userId) {
+		System.out.println("removeuser");
 		// TODO Auto-generated method stub
 		Map<String, Object> map =new HashMap<String, Object>();
 		map.put("userId", "\""+userId+"\"");
-		String query="Match (xyz:Person {id:{userId}})-[r]-()  delete xyz, r";
+		String query="Match (xyz {id:{userId}})-[r]-()  delete xyz, r";
 		String queryDB = neo4j.queryDB(query, map);
 		if(queryDB==null)
 			return false;
@@ -315,6 +319,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean updateUser(User user) {
+		System.out.println("Updating User");
 		User fetchUser = fetchUser(user.getId(),1);
     	if(fetchUser==null)
     		return createUser(user);
@@ -368,6 +373,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean addConnection(String userIdFrom, String userIdTo) {
+		System.out.println("add connection");
 		String userId = neo4j.getNodeUrlById(userIdFrom);
 		String friendId = neo4j.getNodeUrlById(userIdTo);
 		String addRelationship = neo4j.addRelationship(userId, friendId, USER_USER_RELATIONSHIP);
