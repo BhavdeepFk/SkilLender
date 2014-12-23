@@ -128,19 +128,9 @@ public class UserREST {
     @Path("data/{userId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response update(@PathParam("userId") String userId, InputStream incomingData) {
+    public Response update(@PathParam("userId") String userId, String body) {
 
-        StringBuilder sample = new StringBuilder();
-        try {
-            BufferedReader in = new BufferedReader(new InputStreamReader(incomingData));
-            String line = null;
-            while ((line = in.readLine()) != null) {
-                sample.append(line);
-            }
-        } catch (Exception e) {
-            System.out.println("Error Parsing: - ");
-        }
-        System.out.println("Data Received: " + sample.toString());
+        System.out.println("Data Received: " + body);
         ObjectNode result = JsonNodeFactory.instance.objectNode();
         result.put("result", "pong");
         return Response.ok().entity(result).build();
