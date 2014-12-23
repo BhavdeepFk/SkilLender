@@ -311,6 +311,8 @@ public class UserDaoImpl implements UserDao {
 		map.put("userId", "\""+userId+"\"");
 		String query="Match (xyz {id:{userId}})-[r]-()  delete xyz, r";
 		String queryDB = neo4j.queryDB(query, map);
+		query="Match (xyz {id:{userId}})  delete xyz";
+		queryDB = neo4j.queryDB(query, map);
 		if(queryDB==null)
 			return false;
 		return true;
