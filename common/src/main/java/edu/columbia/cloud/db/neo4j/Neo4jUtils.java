@@ -669,10 +669,6 @@ public class Neo4jUtils {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		try{
 			JSONObject jsonObject = new JSONObject(json);
-			
-			map.clear();
-			
-			
 			jsonObject = (JSONObject)(((JSONArray) ((JSONArray)jsonObject.get("data")).get(0)).get(0));
 			JSONObject dataJSON = jsonObject.getJSONObject("data");
 			JSONObject metadataJSON = jsonObject.getJSONObject("metadata");
@@ -689,7 +685,7 @@ public class Neo4jUtils {
 			}
 		}catch(Exception e)
 		{
-			System.err.println("Exception in getting url");
+			System.err.println("Exception in Converting JSON to MAP");
 			return null;
 		}
 		return map;

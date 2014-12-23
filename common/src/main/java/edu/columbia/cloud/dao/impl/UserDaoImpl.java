@@ -22,10 +22,20 @@ public class UserDaoImpl implements UserDao {
 	private static String USER_USER_RELATIONSHIP ="knows";
 	private static String USER_SKILL_RELATIONSHIP_PARAM="strength";
 	
+	
+	
     @Override
     public boolean createUser(User user) {
-    	User fetchUser = fetchUser(user.getId());
-    	if(fetchUser!=null)
+    	System.out.println("Creating User........");
+    	//User fetchUser = fetchUser();
+    	HashMap<String,Object> userProp = neo4j.getNodeById(user.getId());
+    	if(userProp==null || userProp.isEmpty())
+    		userProp = neo4j.getNodeByLongId(Long.parseLong(user.getId()));
+    	if(userProp==null || userProp.isEmpty())
+    		{
+    			System.err.println("No user with Id found:"+user.getId());
+    		}
+    	else
     		return false;
     	HashMap<String, Object> nodeByLongId = neo4j.getNodeByLongId(Long.parseLong(user.getId()));
     	if(nodeByLongId!=null)
@@ -94,6 +104,11 @@ public class UserDaoImpl implements UserDao {
     	HashMap<String,Object> userProp = neo4j.getNodeById(userId);
     	if(userProp==null || userProp.isEmpty())
     		userProp = neo4j.getNodeByLongId(Long.parseLong(userId));
+    	if(userProp==null || userProp.isEmpty())
+    		{
+    			System.err.println("No user with Id found:"+userId);
+    			return null;
+    		}
     	Iterator<Entry<String, Object>> iterator = userProp.entrySet().iterator();
     	Object id = userProp.get("id");
     	Object name = userProp.get("name");
