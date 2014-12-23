@@ -19,7 +19,7 @@ public class Constants {
     private String serverRootUri;// ="http://54.164.38.37:7474/";
     public static String  API_URL="db/data/node";
     public static String  CYPHER_URL="db/data/cypher/";
-    public Connection connection;
+    private Connection connection;
 	
 
     public String getNeo4jUri() {
@@ -50,6 +50,9 @@ public class Constants {
         return appSecretKey;
     }
 
+    public Connection getMYSQLConnection() {
+        return connection;
+    }
     public String getAppId() {
         return appId;
     }

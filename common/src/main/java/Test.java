@@ -47,7 +47,7 @@ public static void main(String[] args) {
 	
 	user2.addConnection(user4);
 	
-	//user3.addConnection(user4);
+	user4.addConnection(user3);
 	skill.setLevel(10);
 	user.addSkillToList(skill);
 	skill2.setLevel(5);
@@ -70,19 +70,20 @@ public static void main(String[] args) {
 	
 	
 	
-	//dao.createUser(user);
-	//dao.addSkill(user.getId(), skill3, 10);
-	/*List<User> fetchUsersWithSkill = dao.fetchUsersWithSkill("s2");
+	System.out.println(dao.createUser(user));
+	System.out.println(dao.createUser(user4));
+	//edao.addSkill(user.getId(), skill3, 10);
+	List<User> fetchUsersWithSkill = dao.fetchUsersWithSkill("s2");
 	for (User user5 : fetchUsersWithSkill) {
 		System.out.println(user5.getName());
-	}*/
-	//dao.removeSkill(user.getId(), skill3.getId());
+	}
+	dao.removeSkill(user.getId(), skill3.getId());
 	//dao.removeUser("0");
-	//dao.updateSkill(user.getId(), skill.getId(), 1);
+	dao.updateSkill(user.getId(), skill.getId(), 1);
 	Neo4jUtils neo4jUtils = new Neo4jUtils();
 	//neo4jUtils.deleteAll();
-	//List<User> fetchUsersWithSkill = dao.fetchUsersWithSkill("0", "s3", 1);
-	//System.out.println(fetchUsersWithSkill.get(0).getName());
+	List<User> fetchUsersWithSkill2 = dao.fetchUsersWithSkill("123", "s3", 1);
+	System.out.println(fetchUsersWithSkill2.get(0).getName());
 	User fetchUser = dao.fetchUser("10152876710411291");
 	System.out.println(fetchUser.getName());
 	
