@@ -18,4 +18,5 @@ public interface UserService {
 
     public boolean makeConnection(String userId, String anotherUserId);
 
+    public boolean updateUser(User user);
 }
