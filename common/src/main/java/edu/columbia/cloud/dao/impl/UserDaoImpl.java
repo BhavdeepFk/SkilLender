@@ -187,11 +187,30 @@ public class UserDaoImpl implements UserDao {
 		String query="Match (xyz:Person {id:{userId}})-[:knows*1.."+level+"]-(friends)-[r:has]-(skills:Skill {name:{skillName}}) return friends.id";
 		String queryDB = neo4j.queryDB(query, map);
 		Map<String, List<Object>> dataFromColumns = neo4j.getDataFromColumns(queryDB);
-		
-		List<Object> list = dataFromColumns.get("friends.id");
-		if(list!=null)
-		for (Object object : list) {
+		List<Object> friendsIDList = dataFromColumns.get("friends.id");
+		//Maintaing same category
+		map.remove("userId");
+		query="Match (skills:Skill {name:{skillName}}) return skills.category";
+		queryDB = neo4j.queryDB(query, map);
+		Map<String, List<Object>> getCat = neo4j.getDataFromColumns(queryDB);
+		boolean test =false;
+		String category="";
+		if(getCat!=null)
+			if(!getCat.isEmpty())
+				test=true;
+		if(test)
+			category = (String)getCat.get("skills.category").get(0);
+		if(friendsIDList!=null)
+		for (Object object : friendsIDList) {
 			User user = fetchUser((String)object);
+			if(test){
+			List<Skill> skillList = user.getSkillList();
+			for (Skill skill : skillList) {
+				if(!skill.getCategory().equalsIgnoreCase(category))
+					skillList.remove(skill);
+			}
+			user.setSkillList(skillList);
+			}
 			users.add(user);
 		}
 		return users;
