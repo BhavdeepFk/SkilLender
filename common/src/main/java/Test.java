@@ -10,19 +10,19 @@ import edu.columbia.cloud.models.User;
 public class Test {
 public static void main(String[] args) {
 	UserDao dao = new UserDaoImpl();
-	User user = new User("123", "XYZ");
+	User user = new User("1", "XYZ");
 	user.setEmail("@");
 	user.setGender("female");
 	
-	User user2 = new User("456", "ABC");
+	User user2 = new User("2", "ABC");
 	user2.setEmail("@");
 	user2.setGender("female");
 	
-	User user3 = new User("789", "HJK");
+	User user3 = new User("3", "HJK");
 	user3.setEmail("@");
 	user3.setGender("female");
 	
-	User user4 = new User("0", "LLL");
+	User user4 = new User("4", "LLL");
 	user4.setEmail("@");
 	user4.setGender("female");
 	
@@ -43,9 +43,9 @@ public static void main(String[] args) {
 	
 	
 	user.addConnection(user2);
-	user.addConnection(user4);
+	//user.addConnection(user4);
 	
-	user2.addConnection(user4);
+	user2.addConnection(user3);
 	
 	user4.addConnection(user3);
 	skill.setLevel(10);
@@ -72,8 +72,12 @@ public static void main(String[] args) {
 	
 	System.out.println(dao.createUser(user));
 	System.out.println(dao.createUser(user4));
+	//user.addConnection(user4);
+	user4.getSkillList().remove(skill);
+	//System.out.println(dao.updateUser(user3));
+	System.out.println(dao.updateUser(user4));
 	//edao.addSkill(user.getId(), skill3, 10);
-	List<User> fetchUsersWithSkill = dao.fetchUsersWithSkill("s2");
+	/*List<User> fetchUsersWithSkill = dao.fetchUsersWithSkill("s2");
 	for (User user5 : fetchUsersWithSkill) {
 		System.out.println(user5.getName());
 	}
@@ -87,5 +91,8 @@ public static void main(String[] args) {
 	User fetchUser = dao.fetchUser("10152876710411291");
 	System.out.println(fetchUser.getName());
 	
+	User fetchUser2 = dao.fetchUser("123", 1);
+	System.out.println();
+	*/
 }
 }

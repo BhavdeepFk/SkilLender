@@ -1,10 +1,13 @@
 package edu.columbia.cloud.db.neo4j;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import org.apache.commons.httpclient.Header;
@@ -17,7 +20,11 @@ import org.neo4j.shell.util.json.JSONArray;
 import org.neo4j.shell.util.json.JSONException;
 import org.neo4j.shell.util.json.JSONObject;
 
+import edu.columbia.cloud.dao.UserDao;
+import edu.columbia.cloud.dao.impl.UserDaoImpl;
 import edu.columbia.cloud.models.Constants;
+import edu.columbia.cloud.models.Skill;
+import edu.columbia.cloud.models.User;
 
 public class Neo4jUtils {
 	
@@ -28,7 +35,52 @@ public class Neo4jUtils {
 		constant = Constants.getInstance(); 
 	}
 	
+	public String genJsonForD3() throws JSONException{
+		String query="Match n return n.id";
+		String queryDB = queryDB(query, null);
+		System.out.println(queryDB);
+		JSONObject jsonObject = new JSONObject(queryDB);
+		List<Object> list = getDataFromColumns(jsonObject.toString()).get("n.id");
+		Map<String, String> nodeMap = new HashMap<String, String>();
+		Set<String> linkSet = new HashSet<String>();
+		UserDao dao = new UserDaoImpl();
+		for (Object object : list) {
+			if(nodeMap.containsKey((String)object))
+					continue;
+			User fetchUser = dao.fetchUser((String)object, 6);
+			addGraphDataToHashMap(fetchUser, nodeMap, linkSet);
+		}
+		return"";
+	}
 	
+	
+	public void addGraphDataToHashMap(User user,Map<String, String> map, Set<String> linkSet){
+		if (map.containsKey(user.getId()))
+			return;
+		StringBuilder json=new StringBuilder();
+		json.append("{\"name\":\"")	;
+		json.append(user.getName());
+		json.append("\",\"group\":1},");
+		map.put(user.getId(), json.toString());
+		List<Skill> skillList = user.getSkillList();
+		for (Skill skill : skillList) {
+			if (map.containsKey(skill.getId()))
+				continue;
+			else{
+			json =new StringBuilder();
+			json.append("{\"name\":\"")	;
+			json.append(skill.getName());
+			json.append("\",\"group\":2},");	
+			map.put(skill.getId(), json.toString());
+			}
+			json =new StringBuilder();
+			json.append("{\"source\":\"")	;
+			json.append(skill.getName());
+			json.append("\",\"group\":2},");	
+			
+		}
+		
+	}
 	
 	public Map<String, Object> getNeighborsDeatilsOverRelation(String userId,int level,String...relation) throws JSONException{
 		if(!checkServer())
