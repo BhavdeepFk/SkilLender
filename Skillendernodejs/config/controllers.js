@@ -35,8 +35,9 @@ var homePagePost=function(request, reply){
     var options = {
       host: 'skillender.elasticbeanstalk.com',
       port: 80,
-      path: '/rest/user/1',
+      path: '/rest/user/+request.params.id',
       //+request.params.id
+	  //1
       method: 'GET',
       headers:{
         contentType:'application/json'  
@@ -77,7 +78,8 @@ var homePage=function(request,reply){
     var options = {
       host: 'skillender.elasticbeanstalk.com',
       port: 80,
-      path: '/rest/user/1',
+      path: '/rest/user/+request.params.id',
+	  //1
 	  //+request.params.id
       method: 'GET',
       headers:{
@@ -115,7 +117,9 @@ var searchQuery=function(request,reply){
     var options = {
       host: 'skillender.elasticbeanstalk.com',
       port: 80,
-      path: '/rest/search/user/3/s2/1',
+	  url :'/rest/search/user/3',
+	  path:reqeust.params.skill+'/'+request.params.degree,
+      //path: '/rest/search/user/3/s2/1',
       //+request.params.id
       method: 'GET',
       headers:{
