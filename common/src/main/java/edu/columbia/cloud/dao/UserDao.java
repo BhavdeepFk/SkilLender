@@ -12,6 +12,10 @@ public interface UserDao {
     public User fetchUser(String userId);
     
     public User fetchUser(String userId,int levelOfGraph);
+    
+    //update overrides user state with respect to skills, connections are maintained
+    
+    public boolean updateUser(User user);
 
     public List<User> fetchUsersWithSkill(String skillId);
     
