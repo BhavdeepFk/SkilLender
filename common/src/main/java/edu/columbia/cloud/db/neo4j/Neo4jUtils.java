@@ -77,7 +77,7 @@ public class Neo4jUtils {
 			else{
 			nodeIds.add(skill.getId());
 			json.append("\n{\"name\":\"");
-			json.append(skill.getName());
+			json.append(skill.getName().toLowerCase().trim());
 			json.append("\",\"group\":2},");
 			}
 			sbLinks.append("\n{\"source\":");
