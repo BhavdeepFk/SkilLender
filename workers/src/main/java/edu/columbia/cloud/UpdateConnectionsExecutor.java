@@ -25,6 +25,7 @@ public class UpdateConnectionsExecutor implements Runnable {
 	private SQSService sqsService;
     private UserService userService;
     private static int WAIT_TIME = 1000;
+    private static int MAX_TIME = 32000;
 
 	@Override
 	public void run() {
@@ -97,8 +98,8 @@ public class UpdateConnectionsExecutor implements Runnable {
                 System.out.println("Waiting for "+WAIT_TIME/1000 +" seconds");
                 Thread.sleep(WAIT_TIME);
                 WAIT_TIME = WAIT_TIME * 2;
-                if(WAIT_TIME > 64000){
-                    WAIT_TIME =  64000;
+                if(WAIT_TIME > MAX_TIME){
+                    WAIT_TIME =  MAX_TIME;
                 }
 
             }

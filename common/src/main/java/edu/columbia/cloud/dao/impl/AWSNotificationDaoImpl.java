@@ -17,7 +17,7 @@ public class AWSNotificationDaoImpl implements NotificationDao {
     private AmazonSimpleEmailServiceClient amazonSES;
     private static String FROM_EMAIL = "skilender@googlegroups.com";
     private static String SUBJECT = "SkilLender User wants your help!";
-    private static String BODY = "Hello %s, \n\n SkilLender user, %s wants your help with %s! He can be reached at %s. \n\n\n Regards, \nSkilLender Team";
+    private static String BODY = "Hello %s, \n\n SkilLender user, %s wants your help with %s! The user can be reached at %s. \n\n\n Regards, \nSkilLender Team";
 
 
     public AWSNotificationDaoImpl() {
@@ -66,24 +66,5 @@ public class AWSNotificationDaoImpl implements NotificationDao {
         return null;
     }
 
-    public static void main(String[] args) {
-        System.out.println("Start!");
-        AWSNotificationDaoImpl awsNotificationDao = new AWSNotificationDaoImpl();
-        Notification notification = new Notification();
-        User fromUser = new User("927716317252688", "Bhavdeep Sethi From");
-        fromUser.setGender("male");
-        fromUser.setEmail("believethehype@gmail.com");
-        fromUser.setDob(null);
-
-
-        User toUser = new User("927716317252688", "Bhavdeep Sethi To");
-        toUser.setGender("male");
-        toUser.setEmail("sethi.bhavdeep@gmail.com");
-        notification.setUserIdFrom(fromUser);
-        notification.setUserIdTo(toUser);
-        notification.setSkillName("Python");
-
-        awsNotificationDao.sendNotification(notification);
-        System.out.println("Done!");
-    }
+  
 }

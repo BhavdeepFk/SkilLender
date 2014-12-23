@@ -70,7 +70,7 @@ public class UserREST {
             facebookClient = new DefaultFacebookClient(token.getAccessToken(), Constants.getInstance().getAppSecretKey());
             user = facebookClient.fetchObject("me", com.restfb.types.User.class);
         }
-
+        System.out.println("User: "+user);
         User userInternal = new User(user.getId(),user.getName());
         userInternal.setEmail(user.getEmail());
         userInternal.setDob(user.getBirthdayAsDate());

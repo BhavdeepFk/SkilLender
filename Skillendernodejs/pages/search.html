@@ -37,7 +37,8 @@
                         <!--<a href="../../userhome/{{this.id}}" >Visit Profile</a>-->
                         </div>
                         <div class="pull-left full">
-                        <input type="button" value="Contact User" name="contact"></button>
+                        <input type="button" value="Contact User" name="contact" class="contactUser" />
+                        <input type="hidden" value="{{this.id}}" name="contactId" />
                         </div>
 
 				    </div>	
@@ -49,5 +50,26 @@
 </center>
 
 <script type="text/javascript">
+
+ $(document.body).on('click', '.contactUser' ,function(){      
+        var finalData = {};
+        var allSkills=[];
+            //$($('.contactUser')[1].nextElementSibling).val()
+        toUser = $(this.nextElementSibling).val();
+        $(this).prop("disabled" ,true);
+        
+        $.ajax({
+            method:'POST',
+            url:'http://skillender.elasticbeanstalk.com/rest/notify/{{id}}/'+toUser+"?skillName={{searchQuery}}",            
+            contentType:"application/json; charset=utf-8"
+            
+        }).done(function(){
+             
+        });
+        
+        //alert( "Handler for .submit() called." );
+        //event.preventDefault();
+        
+    });
     
 </script>
