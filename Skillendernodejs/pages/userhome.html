@@ -7,38 +7,37 @@
             <img src="/static/images/user.jpg" alt="sample user name">
         </div>
         <div class="notifications pull-right">
-            <div class="heading">
-                Contact Details:
-                <span class=' badge numNotifs pull-right'>7 new</span>
+            <div class="heading">                 
+                <span class=' badge numNotifs pull-right'>Notifications: 7 new</span>
             </div>
             <div class="notificationsContent">
                 <ul class="list-group">
                     <li class="list-group-item">
-                        <div class="from pull-left new">Name: Mike Hannigan</div>
+                        <div class="from pull-left new">Name: {{name}}</div>
                        
                     </li>
                     <li class="list-group-item">
-                        <div class="from pull-left new">Age: Forever young</div>
+                        <div class="from pull-left new">DOB: {{dob}}/div>
                         
                     </li>
                     <li class="list-group-item">
-                        <div class="from pull-left new">Gender: Male</div>
+                        <div class="from pull-left new">Gender: {{gender}}</div>
                        
                     </li>
                     <li class="list-group-item">
-                        <div class="from pull-left">Work: Columbia University</div>
+                        <div class="from pull-left">Work: {{occupation}}</div>
                         
                     </li>
 					<li class="list-group-item">
-                        <div class="from pull-left">Location: New York</div>
+                        <div class="from pull-left">Location: {{city}}</div>
                         
                     </li>
 					<li class="list-group-item">
-                        <div class="from pull-left">Contact:987654321</div>
+                        <div class="from pull-left">Contact: {{contact}}</div>
                         
                     </li>
 					<li class="list-group-item">
-                        <div class="from pull-left">Email: abc@columbia.edu</div>
+                        <div class="from pull-left">Email: {{email}}</div>
                         
                     </li>
                 </ul>

@@ -10,9 +10,7 @@ var loginPage=function(request,reply){
     reply.view('login.html',context);
 };
 
-var homePagePost=function(request, reply){
-
-    console.log("Home Page Post:"+request);
+var homePagePost=function(request, reply){    
     
     var fullBody = '';
     
@@ -88,19 +86,14 @@ var homePage=function(request,reply){
 
     var responseOut;
     var req = http.request(options, function(res) {
-      console.log('STATUS: ' + res.statusCode);
-      console.log('HEADERS: ' + JSON.stringify(res.headers));
       res.setEncoding('utf8');
 	  var data='';
       res.on('data', function (chunk) {
-	  data += chunk;
-        console.log('BODY: ' + data);
-		console.log(typeof  data);
+	   data += chunk;        
       });
 		
       res.on('end', function(){
-        responseOut = JSON.parse(data);		
-		console.log( responseOut.user.name, responseOut.user.id);
+        responseOut = JSON.parse(data);				
 		reply.view('home.html',responseOut.user);
        });
 	  
@@ -155,7 +148,33 @@ var searchQuery=function(request,reply){
 
 
 var userhome=function(request,reply){
-    reply.view('userhome.html', request.params);
+    console.log(request.params.id);
+    var options = {
+      host: 'skillender.elasticbeanstalk.com',
+      port: 80,
+      path: '/rest/user/'+request.params.id,      
+      method: 'GET',
+      headers:{
+        contentType:'application/json'  
+      }
+      
+    };
+
+    var responseOut;
+    var req = http.request(options, function(res) {
+      res.setEncoding('utf8');
+      var data='';
+      res.on('data', function (chunk) {
+        data += chunk;
+      });
+        
+      res.on('end', function(){
+        responseOut = JSON.parse(data);             
+        reply.view('userhome.html',responseOut.user);
+       });
+      
+    });
+    req.end();    
 };
 
 
@@ -177,7 +196,7 @@ module.exports=[
     },
 	{
         method:'GET',
-        path:'/userhome',
+        path:'/userhome/{id}',
         handler:userhome
     },
     {
