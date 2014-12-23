@@ -14,8 +14,11 @@
 # Maven
 log/
 target/
+*.log
 
 # Title Detection
 *.properties
 
 /bin/
+#Node.js
+node_modules/

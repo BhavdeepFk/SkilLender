@@ -16,7 +16,7 @@ var homePage=function(request,reply){
     var options = {
       host: 'skillender.elasticbeanstalk.com',
       port: 80,
-      path: '/rest/user/123',
+      path: '/rest/user/456',
 	  //+request.params.id
       method: 'GET',
       headers:{
