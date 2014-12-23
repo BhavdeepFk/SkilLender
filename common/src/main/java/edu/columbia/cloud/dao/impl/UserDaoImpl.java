@@ -85,7 +85,7 @@ public class UserDaoImpl implements UserDao {
     	System.out.println("Creating skill........");
     	Map<String, Object> propMap = new HashMap<String, Object>();
     	propMap.put("id", skill.getName());
-    	propMap.put("name", skill.getName());
+    	propMap.put("name", skill.getName().toLowerCase().trim());
     	propMap.put("category", skill.getCategory());;
     	String nodeUrl = neo4j.createNode(propMap);
     	if(nodeUrl==null)
@@ -194,6 +194,7 @@ public class UserDaoImpl implements UserDao {
     	System.out.println(" fetchUsersWithSkil........");
     	try{
     	List<User> users = new ArrayList<User>();
+    	List<String> usersId = new ArrayList<String>();
     	Map<String, Object> map =new HashMap<String, Object>();
 		map.put("skillName", "\""+skillName+"\"");
 		map.put("userId", "\""+userId+"\"");
@@ -225,7 +226,11 @@ public class UserDaoImpl implements UserDao {
 			}
 			user.setSkillList(skillList);
 			}
-			users.add(user);
+			if(!usersId.contains(user.getId()))
+			{
+				users.add(user);
+				usersId.add(user.getId());
+			}
 		}
 		return users;
     	}catch(Exception e){
