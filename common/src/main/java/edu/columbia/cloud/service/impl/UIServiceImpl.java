@@ -13,8 +13,7 @@ public class UIServiceImpl implements UIService {
 	@Override
 	public String getD3Json() {
 		// TODO Auto-generated method stub
-		
-		return null;
+		return neo4jUtils.genJsonForD3();
 	}
 
 }
